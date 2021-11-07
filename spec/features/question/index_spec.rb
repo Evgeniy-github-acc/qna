@@ -9,8 +9,7 @@ feature 'User can view questions', %q{
   
   scenario 'visit questions page' do
     visit questions_path
-    save_and_open_page 
-    
+        
     questions.each { |question| expect(page).to have_content question.title }
    
   end
