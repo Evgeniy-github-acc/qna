@@ -1,6 +1,6 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
-  before_action :define_question, only: [:new, :create]
+  before_action :define_question, only: [:new, :create, :destroy]
 
  
   def new
@@ -8,7 +8,7 @@ class AnswersController < ApplicationController
   end
 
   def create
-    @answer = @question.answers.new(answer_params)
+    @answer = @question.answers.new((answer_params).merge(author: current_user))
 
     if @answer.save
       redirect_to question_path(@question)
@@ -16,6 +16,16 @@ class AnswersController < ApplicationController
       render 'questions/show' 
     end
     
+  end
+
+  def destroy
+    @answer = Answer.find(params[:id])
+    if current_user.author_of?(@answer)
+      @answer.destroy
+      redirect_to question_path(@question), notice: 'Your answer was deleted'
+    else
+      redirect_to question_path(@question), notice: 'You can delete only your own answers'
+    end 
   end
 
   private

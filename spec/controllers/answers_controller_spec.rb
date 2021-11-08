@@ -1,9 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
-  let(:question) { create(:question) }
-  let(:answer) { create(:answer, question: question) }
   let(:user){ create(:user) }
+  let(:question) { create(:question, author: user) }
+  let(:answer) { create(:answer, question: question, author: user) }
+
   before { login(user) }
 
   
@@ -29,6 +30,34 @@ RSpec.describe AnswersController, type: :controller do
         post :create, params: { question_id: question.id, answer: attributes_for(:answer, :invalid) }
         expect(response).to render_template 'questions/show'
       end
+    end
+  end
+
+  describe 'DELETE #destroy' do
+    before { login(author) }
+    let!(:user) { create(:user)}
+    let!(:author) { create(:user)}
+    let!(:question) { create(:question, author: user) }  
+    
+    context 'user deletes own answer' do
+      let!(:answer) { create(:answer, question: question, author: author) }
+      
+      it 'deletes the answer' do
+        expect { delete :destroy, params: { question_id: question.id, id: answer } }.to change(question.answers, :count).by(-1)
+      end
+    end
+
+    context "user deletes someone's answer" do
+      let!(:answer) { create(:answer, question: question, author: user) }
+
+      it 'does not delete the answer' do
+        expect { delete :destroy, params: { question_id: question.id, id: answer } }.to_not change(question.answers, :count)
+      end
+    end
+    
+    it 'redirects to question' do
+      delete :destroy, params: { question_id: question.id, id: answer }
+      expect(response).to redirect_to question_path(question)
     end
   end
 
