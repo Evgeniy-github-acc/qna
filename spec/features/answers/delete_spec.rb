@@ -13,7 +13,7 @@ feature 'User can delete answers', %q{
       sign_in(user)
       visit question_path(question)
       
-      expect(page).not_to have_content 'Delete answer' 
+      expect(page).not_to have_link 'Delete answer' 
     end
     
     scenario "user tries to delete own answer" do
@@ -23,5 +23,12 @@ feature 'User can delete answers', %q{
      
       expect(page).to have_content 'Your answer was deleted' 
     end
+
+      
+  scenario "unautherized user tries to delete answer" do
+    visit question_path(question)
+    
+    expect(page).not_to have_link 'Delete answer' 
+  end
 
 end

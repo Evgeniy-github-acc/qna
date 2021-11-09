@@ -11,6 +11,5 @@ feature 'User can view questions', %q{
     visit questions_path
         
     questions.each { |question| expect(page).to have_content question.title }
-   
   end
 end

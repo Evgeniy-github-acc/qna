@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :question do
-    title { "MyString" }
-    body { "MyText" }
+    sequence(:title, 10) { |n| "Title#{n}" }
+    sequence(:body, 10) { |n| "Some text#{n}" * 15 }
     author { create(:user) }
 
     trait :invalid do

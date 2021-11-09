@@ -8,12 +8,20 @@ feature 'User can delete question', %q{
   given(:user) { create(:user) }
   given(:author) { create(:user) }
   given(:question) { create(:question, author: author) }
+  
+  
+  scenario "unautherized user tries to delete question" do
+    visit question_path(question)
+    
+    expect(page).not_to have_link 'Delete question' 
+  end
+
 
     scenario "user tries to delete someone's question" do
       sign_in(user)
       visit question_path(question)
       
-      expect(page).not_to have_content 'Delete question' 
+      expect(page).not_to have_link 'Delete question' 
     end
     
     scenario "user tries to delete own question" do
