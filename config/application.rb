@@ -18,5 +18,13 @@ module Qna
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+    config.generators do |g|
+      g.test_framework :rspec 
+      g.controller_specs true
+      g.view_specs false
+      g.helper_specs false
+      g.routing_specs false
+      g.request_specs false
+    end
   end
 end
