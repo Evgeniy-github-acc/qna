@@ -3,9 +3,9 @@ class AnswersController < ApplicationController
   before_action :define_question, only: [:new, :create, :destroy]
 
  
-  def new
-    @answer = @question.answers.new
-  end
+ # def new
+  #  @answer = @question.answers.new
+ # end
 
   def create
     @answer = @question.answers.new((answer_params).merge(author: current_user))
