@@ -4,6 +4,7 @@ RSpec.describe QuestionsController, type: :controller do
   let(:user){ create(:user) }
   let(:question) { create(:question, author: user) }
   
+  
   describe 'GET #index' do
     let(:questions) { create_list(:question, 3, author: user) }
     before { get :index }
@@ -22,6 +23,10 @@ RSpec.describe QuestionsController, type: :controller do
 
     it 'assigns the requested question to @question' do
       expect(assigns(:question)).to eq question
+    end
+
+    it 'assigns new answer for question' do
+      expect(assigns(:answer)).to be_a_new(Answer) 
     end
 
     it 'renders show view' do
