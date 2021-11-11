@@ -1,25 +1,36 @@
 class AnswersController < ApplicationController
-  before_action :define_question, only: [:new, :create]
+  before_action :authenticate_user!
+  before_action :load_question, only: [:new, :create]
 
  
-  def new
-    @answer = @question.answers.new
-  end
+ # def new
+  #  @answer = @question.answers.new
+ # end
 
   def create
-    @answer = @question.answers.new(answer_params)
+    @answer = @question.answers.new((answer_params).merge(author: current_user))
 
     if @answer.save
       redirect_to question_path(@question)
     else
-      render :new  
+      render 'questions/show' 
     end
     
   end
 
+  def destroy
+    @answer = Answer.find(params[:id])
+    if current_user.author_of?(@answer)
+      @answer.destroy
+      redirect_to question_path(@answer.question_id), notice: 'Your answer was deleted'
+    else
+      redirect_to question_path(@answer.question_id), notice: 'You can delete only your own answers'
+    end 
+  end
+
   private
 
-  def define_question
+  def load_question
     @question = Question.find(params[:question_id])    
   end
 
