@@ -16,14 +16,14 @@ feature 'User can create answer', %q{
       visit question_path(question)
     end
     
-    scenario ' answers question' do
+    scenario ' answers question', js: true do
       fill_in 'Body', with: 'Lorem ipsum'
       click_on 'Answer'
   
       expect(page).to have_content 'Lorem ipsum'
     end
   
-    scenario 'answers a question with errors' do
+    scenario 'answers a question with errors', js: true do
       click_on 'Answer'
       
       expect(page).to have_content "Body can't be blank"

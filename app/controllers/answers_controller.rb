@@ -8,14 +8,7 @@ class AnswersController < ApplicationController
  # end
 
   def create
-    @answer = @question.answers.new((answer_params).merge(author: current_user))
-
-    if @answer.save
-      redirect_to question_path(@question)
-    else
-      render 'questions/show' 
-    end
-    
+    @answer = @question.answers.create((answer_params).merge(author: current_user))
   end
 
   def destroy
