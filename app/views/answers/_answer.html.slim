@@ -2,4 +2,10 @@ p= answer.body
 p= answer.author.email
 - if answer.persisted? && current_user&.author_of?(answer)
   p=link_to 'Delete answer', answer_path(answer), method: :delete
+  p=link_to 'Edit'
+
+= form_with model: answer, local: false, class: 'hidden' do |f|
+  = f.label :body, 'Your answer'
+  = f.text_area :body
+  = f.submit 'Save'
   

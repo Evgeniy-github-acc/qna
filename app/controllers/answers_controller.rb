@@ -7,6 +7,12 @@ class AnswersController < ApplicationController
   #  @answer = @question.answers.new
  # end
 
+ def update
+   @answer = Answer.find(params[:id])
+   @answer.update(answer_params)
+   @question = @answer.question
+ end
+
   def create
     @answer = @question.answers.create((answer_params).merge(author: current_user))
   end
