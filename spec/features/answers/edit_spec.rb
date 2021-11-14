@@ -12,6 +12,7 @@ feature 'User can edit answers', %q{
 
     expect(page).to_not have_link 'Edit'
   end
+  
   describe 'Authenticated user' do
     scenario 'edits his answer', js: true do
       sign_in user

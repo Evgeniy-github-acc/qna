@@ -1,12 +1,12 @@
 .container
   .card
-    .card-title= @question.title
-    .card-body= @question.body
-    .card-footer= @question.author.email
-
-  - if current_user&.author_of?(@question)
-    p=link_to 'Delete question', question_path(@question), method: :delete
-
+    h5.card-title= @question.title
+    .card-body
+      p= @question.body
+      p= @question.author.email
+      - if current_user&.author_of?(@question)
+        p.float-end=link_to 'Delete question', question_path(@question), method: :delete, class: "btn btn-danger btn-sm"
+       
   .answers
     = render @question.answers
     
