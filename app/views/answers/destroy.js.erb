@@ -1,4 +1,4 @@
 <% if !@answer.persisted? %>
   $('#answer-' + <%= @answer_id %>).remove();
-  $('.question').html('<%= j render @question %>');
+  $('.answers').html('<%= render @question.answers %>');
 <% end %>
