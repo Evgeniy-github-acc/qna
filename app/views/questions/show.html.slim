@@ -1,22 +1,26 @@
-.container
-  .card
-    h5.card-title= @question.title
-    .card-body
-      p= @question.body
-      p= @question.author.email
-      - if current_user&.author_of?(@question)
-        p.float-end=link_to 'Delete question', question_path(@question), method: :delete, class: "btn btn-danger btn-sm"
-       
+.answer-errors
+      =render 'shared/errors', resource: @answer
+.container-fluid.mt-100
+  .d-flex.flex-wrap.justify-content-between
+  .card.mb-3
+    .card-title
+      .row.no-gutters.w-100.align-items-center
+        .col-8.ml-8 = @question.title
+    .card-header.pl-0.pr-0
+      .row.no-gutters.align-items-center
+        .col.ml-8 = @question.body
+        - if current_user&.author_of?(@question)
+          =button_to 'Delete question', question_path(@question), method: :delete, class: "btn btn-danger btn-sm"
+           
   .answers
     = render @question.answers
+      
     
-  .answer-errors
-    =render 'shared/errors', resource: @answer
 
-  =form_with model: [@question, @answer], url: question_answers_path(@question), local: false do |f|
+  =bootstrap_form_with model: [@question, @answer], url: question_answers_path(@question), local: false do |f|
     =f.label :body
     =f.text_area :body
-    =f.submit 'Answer'
-    
+    =f.submit 'Answer', class: "btn btn-primary btn-sm float-right"
+
 
 

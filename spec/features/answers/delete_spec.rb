@@ -20,7 +20,7 @@ feature 'User can delete answers', %q{
     scenario "user tries to delete own answer", js: true do
       sign_in(author)
       visit question_path(question)
-      click_on("Delete answer", match: :first)
+      click_on("Delete", match: :first)
      
       expect(page).not_to have_content answer.body
     end
