@@ -2,26 +2,29 @@
   .row.no-gutters.align-items-center
     .col 
       = answer.body
-      - if answer.persisted? && current_user&.author_of?(answer)
+- if answer.persisted? && current_user&.author_of?(answer)
   .row.no-gutters.align-items-center
     .col-9
     .col-3
       .btn-group
         = button_to 'Delete', answer_path(answer), method: :delete, remote: true,  class: "btn btn-shadow btn-wide btn-danger"
-        = button_to 'Edit', '#', method: :get, data: { answer_id: answer.id },  class: "btn btn-shadow btn-wide btn-warning edit-answer-link"  
+        = button_to 'Edit', '#', method: :get, data: { answer_id: answer.id },  class: "btn btn-shadow btn-wide btn-warning edit-answer-link" 
+  
+  = bootstrap_form_with model: answer, local: false, class: 'hidden', html: { id: "edit-answer-#{answer.id}"} do |f|
+    = f.label :body
+    = f.text_area :body
+    = f.submit 'Save'
+
 .card-footer
   .row.no-gutters.align-items-center
     .col-10
       .text-muted.small.mt-1
         = " #{ time_ago_in_words(answer.created_at) } ago" 
         = "  by #{answer.author.email}"
-    .col-2  
-      
-        = button_to 'Best', '#', class: 'edit-answer-link', data: { answer_id: answer.id }, class: "btn btn-shadow btn-wide btn-success" 
+    .col-2
+      - if current_user&.author_of?(@question)  
+        = button_to 'Best', question_path(answer.question, question: { best_answer_id: answer.id }), method: :patch, remote: true, class: "btn btn-shadow btn-wide btn-success" 
         
   
-= form_with model: answer, local: false, class: 'hidden', html: { id: "edit-answer-#{answer.id}"} do |f|
-  = f.label :body, 'Your answer'
-  = f.text_area :body
-  = f.submit 'Save'
+
     

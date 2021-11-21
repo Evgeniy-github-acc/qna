@@ -7,7 +7,9 @@ class QuestionsController < ApplicationController
   end
 
   def show
-    @answer = Answer.new
+    @answer = user_signed_in? ? current_user.answers.new() : Answer.new
+    @best_answer = @question.best_answer
+    @other_answers = @question.answers.where.not(id: @question.best_answer_id)
   end
 
   def new
@@ -22,6 +24,10 @@ class QuestionsController < ApplicationController
     else
       render :new  
     end
+  end
+
+  def update
+    @question.update(question_params) if current_user.author_of?(@question)
   end
 
   def destroy
