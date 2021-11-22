@@ -26,14 +26,31 @@ feature 'Questions author can choose best answer', %q{
       expect(page).to_not have_content 'Best'
     end
 
-    scenario 'User, who is author tries to chose best answer' do
+    scenario 'User, who is author tries to chose best answer', js: true do
       sign_in author
       visit question_path(question)
       
       click_on("Best", match: :first)
 
       expect(page).to have_content 'Best answer'
-      save_and_open_page
+      within('.best-answer') do
+        expect(page).to have_content question.answers.first.body
+      end
     end
+
+    scenario 'User, who is author tries to change best answer', js: true do
+      question.best_answer = question.answers.last
+      sign_in author
+      visit question_path(question)
+      
+      click_on("Best", match: :first)
+      
+      wait_for_ajax
+      within('.best-answer') do
+        expect(page).to have_content question.answers.first.body
+      end
+    end
+     
+    
   end
 end

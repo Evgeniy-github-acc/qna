@@ -1,26 +1,20 @@
+.container-fluid.mt-20.ml-20
+  h1 = @question.title
+
 .answer-errors
-      =render 'shared/errors', resource: @answer
-.container-fluid.mt-100
+  =render 'shared/errors', resource: @answer
+
+.question
+  = render @question
+
+.container-fluid.mt-20
   .d-flex.flex-wrap.justify-content-between
   .card.mb-3
-    .card-title
-      .row.no-gutters.w-100.align-items-center
-        .col-8.ml-8 = @question.title
-    .card-header.pl-0.pr-0
+    .card-body.py-3 
       .row.no-gutters.align-items-center
-        .col.ml-8 = @question.body
-        - if current_user&.author_of?(@question)
-          =button_to 'Delete question', question_path(@question), method: :delete, class: "btn btn-danger btn-sm"
-           
-  .answers
-    = render @question.answers
-      
-    
-
-  =bootstrap_form_with model: [@question, @answer], url: question_answers_path(@question), local: false do |f|
-    =f.label :body
-    =f.text_area :body
-    =f.submit 'Answer', class: "btn btn-primary btn-sm float-right"
-
+        =bootstrap_form_with model: [@question, @answer], url: question_answers_path(@question), local: false do |f|
+          =f.label :body
+          =f.text_area :body
+          =f.submit 'Answer', class: "btn btn-primary btn-sm float-right"
 
 
