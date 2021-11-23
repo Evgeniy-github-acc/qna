@@ -1,0 +1,32 @@
+
+.container-fluid.mt-100
+  .d-flex.flex-wrap.justify-content-between
+  .card.mb-3
+    .card-body.py-3 
+      .row.no-gutters.align-items-center
+        .col.ml-8 = @question.body
+    
+    - if current_user&.author_of?(@question)    
+      .card-footer
+        .row.no-gutters.align-items-center
+          .col-10
+          .col-2 = button_to 'Delete question', question_path(@question), method: :delete, class: "btn btn-danger btn-sm"
+
+-if question.best_answer 
+  .best-answer
+    .container-fluid.mt-50
+      .d-flex.flex-wrap.justify-content-between
+      .card.mb-3 [id = "answer-#{@question.best_answer_id}"]
+        .card-header
+          .row.no-gutters.align-items-center
+            .col  Best answer 
+        .card-body.py-3
+          .row.no-gutters.align-items-center
+            .col 
+              = @question.best_answer.body
+
+
+.answers
+  = render @question.answers
+      
+

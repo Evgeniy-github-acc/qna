@@ -1,6 +1,55 @@
-table 
-  - @questions.each do |question|
-    tr 
-      td.title = link_to question.title, question_path(question)
-
-p= link_to 'Ask question', new_question_path
+.container-fluid.mt-100
+  .d-flex.flex-wrap.justify-content-between
+    
+    div
+      = button_to new_question_path, method: :get, class: "btn btn-shadow btn-wide btn-primary", type: "button"
+        | Ask question
+        span.btn-icon-wrapper.pr-2.opacity-7
+          i.fa.fa-plus.fa-w-20
+          
+    
+    .col-12.col-md-3.p-0.mb-3
+      input.form-control placeholder="Search..." type="text" /
+  
+  .card.mb-3
+    .card-header.pl-0.pr-0
+      .row.no-gutters.w-100.align-items-center
+        .col.ml-3 Topics
+        .col-4.text-muted
+          .row.no-gutters.align-items-center
+            .col-4 Replies
+            .col-8 Last update
+    
+    - @questions.each do |question|
+      .card-body.py-3
+        .row.no-gutters.align-items-center
+          .col
+            =link_to question.title, question_path(question), class: "text-big"
+            
+            .text-muted.small.mt-1
+              = "Started #{ time_ago_in_words(question.created_at) } ago" 
+              = "  by #{question.author.email}"
+          .d-none.d-md-block.col-4
+            .row.no-gutters.align-items-center
+              .col-4 = question.answers.count
+              .media.col-8.align-items-center
+                -if !question.answers.empty?
+                  img.d-block.ui-w-30.rounded-circle alt="" src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1574583246/AAA/2.jpg" /
+                  .media-body.flex-truncate.ml-2
+                    .line-height-1.text-truncate 
+                      = " #{ time_ago_in_words(question.answers.last.created_at) } ago" 
+                    a.text-muted.small.text-truncate data-abc="true" href="javascript:void(0)"
+                      = "  by #{question.answers.last.author.email}"  
+        
+  nav
+    ul.pagination.mb-5
+      li.page-item.disabled
+        a.page-link data-abc="true" href="javascript:void(0)"  «
+      li.page-item.active
+        a.page-link data-abc="true" href="javascript:void(0)"  1
+      li.page-item
+        a.page-link data-abc="true" href="javascript:void(0)"  2
+      li.page-item
+        a.page-link data-abc="true" href="javascript:void(0)"  3
+      li.page-item
+        a.page-link data-abc="true" href="javascript:void(0)"  »

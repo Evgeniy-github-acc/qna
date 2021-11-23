@@ -7,25 +7,21 @@ class AnswersController < ApplicationController
   #  @answer = @question.answers.new
  # end
 
-  def create
-    @answer = @question.answers.new((answer_params).merge(author: current_user))
+ def update
+   @answer = Answer.find(params[:id])
+   @answer.update(answer_params)
+   @question = @answer.question
+  end
 
-    if @answer.save
-      redirect_to question_path(@question)
-    else
-      render 'questions/show' 
-    end
-    
+  def create
+    @answer = @question.answers.create((answer_params).merge(author: current_user))
   end
 
   def destroy
     @answer = Answer.find(params[:id])
-    if current_user.author_of?(@answer)
-      @answer.destroy
-      redirect_to question_path(@answer.question_id), notice: 'Your answer was deleted'
-    else
-      redirect_to question_path(@answer.question_id), notice: 'You can delete only your own answers'
-    end 
+    @question = @answer.question
+    @answer.destroy if current_user.author_of?(@answer)
+    @answer_id = @answer.id
   end
 
   private

@@ -1,22 +1,20 @@
-h1= @question.title
-div= @question.body
+.container-fluid.mt-20.ml-20
+  h1 = @question.title
 
-- if current_user&.author_of?(@question)
-  p=link_to 'Delete question', question_path(@question), method: :delete
+.answer-errors
+  =render 'shared/errors', resource: @answer
 
-=render 'shared/errors', resource: @answer
+.question
+  = render @question
 
-p
-=form_with model: [@question, @answer], url: question_answers_path(@question), local: true do |f|
-  =f.label :body
-  p
-  =f.text_area :body
-  p
-  =f.submit 'Answer'
- 
-  ul
-      - @question.answers.each do |answer|
-        li= answer.body
-        - if answer.persisted? && current_user&.author_of?(answer)
-          p=link_to 'Delete answer', answer_path(answer), method: :delete
+.container-fluid.mt-20
+  .d-flex.flex-wrap.justify-content-between
+  .card.mb-3
+    .card-body.py-3 
+      .row.no-gutters.align-items-center
+        =bootstrap_form_with model: [@question, @answer], url: question_answers_path(@question), local: false do |f|
+          =f.label :body
+          =f.text_area :body
+          =f.submit 'Answer', class: "btn btn-primary btn-sm float-right"
+
 

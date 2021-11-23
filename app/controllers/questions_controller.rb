@@ -1,13 +1,15 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
-  before_action :load_question, only: %i[show destroy]
+  before_action :load_question, only: %i[show destroy update]
 
   def index
     @questions = Question.all
   end
 
   def show
-    @answer = Answer.new
+    @answer = user_signed_in? ? current_user.answers.new() : Answer.new
+    @best_answer = @question.best_answer
+    @other_answers = @question.answers.not_best_answers(@question)
   end
 
   def new
@@ -22,6 +24,10 @@ class QuestionsController < ApplicationController
     else
       render :new  
     end
+  end
+
+  def update
+    @question.update(question_params) if current_user.author_of?(@question)
   end
 
   def destroy
@@ -40,6 +46,6 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    params.require(:question).permit(:title, :body)
+    params.require(:question).permit(:title, :body, :best_answer_id)
   end
 end
