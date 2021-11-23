@@ -5,8 +5,9 @@
       .row.no-gutters.align-items-center
         .col.ml-8 
           = question.body
-          -if question.file.attached?
-            p= link_to @question.file.filename.to_s, url_for(@question.file)
+          -if question.files.attached?
+            - question.files.each do |file|
+              p= link_to file.filename.to_s, url_for(file)
              
     - if current_user&.author_of?(@question)    
       .card-footer
