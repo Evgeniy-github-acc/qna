@@ -28,8 +28,19 @@ feature 'User can edit question', %q{
         expect(page).to_not have_content question.body
         expect(page).to have_content 'edited question'
         expect(page).to_not have_selector 'textarea'
-      end  
+      end
+    end  
       
+    scenario 'attaches files when edits question', js: true do
+      sign_in author
+      visit question_path(question)
+      click_on('Edit', match: :first)
+           
+      attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]  
+      click_on('Save', match: :first)
+      expect(page).to have_link 'rails_helper.rb'
+      expect(page).to have_link 'spec_helper.rb'
+        
     end
     
     scenario 'edits his question with errors', js: true do
@@ -52,7 +63,5 @@ feature 'User can edit question', %q{
         expect(page).to_not have_link 'Edit'
       end
     end
-
   end
-
 end
