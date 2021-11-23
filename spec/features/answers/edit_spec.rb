@@ -20,9 +20,9 @@ feature 'User can edit answers', %q{
     scenario 'edits his answer', js: true do
       sign_in author
       visit question_path(question)
-
-      click_on('Edit', match: :first)
+      
       within '.answers' do
+        click_on('Edit', match: :first)
         fill_in('Body', match: :first, with: 'edited answer')
         click_on('Save', match: :first)
 
@@ -35,11 +35,12 @@ feature 'User can edit answers', %q{
     scenario 'edits his answer with errors', js: true do
       sign_in author
       visit question_path(question)
-      click_on('Edit', match: :first)
-      
-      fill_in('Body', match: :first, with: '')
-      click_on('Save', match: :first)
-      
+      within '.answers' do
+        click_on('Edit', match: :first)
+        
+        fill_in('Body', match: :first, with: '')
+        click_on('Save', match: :first)
+      end
       expect(page).to have_content "Body can't be blank"  
     end
     

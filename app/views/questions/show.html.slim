@@ -1,8 +1,10 @@
 .container-fluid.mt-20.ml-20
   h1 = @question.title
 
-.answer-errors
+
+.errors
   =render 'shared/errors', resource: @answer
+  =render 'shared/errors', resource: @question
 
 .question
   = render @question

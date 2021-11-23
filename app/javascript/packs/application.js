@@ -10,7 +10,8 @@ import "channels"
 import "jquery"
 import 'bootstrap/dist/js/bootstrap'
 import "bootstrap/dist/css/bootstrap"
-import "../utilities/edit.js"
+import "../utilities/edit_answer.js"
+import "../utilities/edit_question.js"
 
 Rails.start()
 Turbolinks.start()
