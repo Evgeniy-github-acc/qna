@@ -2,11 +2,6 @@ class AnswersController < ApplicationController
   before_action :authenticate_user!
   before_action :load_question, only: [:new, :create]
 
- 
- # def new
-  #  @answer = @question.answers.new
- # end
-
  def update
    @answer = Answer.find(params[:id])
    @answer.update(answer_params)
@@ -31,6 +26,6 @@ class AnswersController < ApplicationController
   end
 
   def answer_params
-    params.require(:answer).permit(:body)
+    params.require(:answer).permit(:body, files: [])
   end
 end

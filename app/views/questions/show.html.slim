@@ -9,7 +9,7 @@
 .question
   = render @question
 
-.container-fluid.mt-20
+.container-fluid.mt-20.new-answer
   .d-flex.flex-wrap.justify-content-between
   .card.mb-3
     .card-body.py-3 
@@ -17,6 +17,8 @@
         =bootstrap_form_with model: [@question, @answer], url: question_answers_path(@question), local: false do |f|
           =f.label :body
           =f.text_area :body
-          =f.submit 'Answer', class: "btn btn-primary btn-sm float-right"
+          = f.label :files
+          = f.file_field :files, multiple: true
+          = f.submit 'Answer', class: "btn btn-primary btn-sm float-right"
 
 

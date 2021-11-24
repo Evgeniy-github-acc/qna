@@ -31,6 +31,33 @@ feature 'User can edit answers', %q{
         expect(page).to_not have_selector 'textarea'
       end
     end
+
+    scenario 'attaches files when edits answer', js: true do
+      sign_in author
+      visit question_path(question)
+      
+      within '.answers' do
+        click_on('Edit', match: :first)
+            
+        attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]  
+        click_on('Save', match: :first)
+      end
+      expect(page).to have_link 'rails_helper.rb'
+      expect(page).to have_link 'spec_helper.rb'
+    end
+
+      
+    scenario 'deletes files attached to the answer', js: true  do
+      sign_in author
+      question.answers.first.files.attach(io: File.open("#{Rails.root}/spec/rails_helper.rb"), filename: "rails_helper.rb")
+      visit question_path(question)
+      
+      within '.answers' do
+        click_on('Remove file')    
+      end 
+            
+      expect(page).to_not have_link 'rails_helper.rb'
+    end
     
     scenario 'edits his answer with errors', js: true do
       sign_in author

@@ -1,7 +1,8 @@
 class Answer < ApplicationRecord
   belongs_to :author, class_name: 'User', foreign_key: 'author_id'
   belongs_to :question
-
+  has_many_attached :files
+  
   validates :body, presence: true
 
   scope :not_best_answers, -> (question){ where.not(id: question.best_answer_id) }

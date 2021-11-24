@@ -8,7 +8,13 @@
             = question.body
             -if question.files.attached?
               - question.files.each do |file|
-                p= link_to file.filename.to_s, url_for(file)
+                .question-files.d-flex.flex-wrap
+                    = link_to file.filename.to_s, url_for(file)
+                    - if current_user&.author_of?(@question)  
+                      = link_to "Remove file", file_path(file), 
+                                               method: :delete,
+                                               remote: true,
+                                               class: "btn btn-shadow btn-wide btn-danger btn-xs"
                 
       - if current_user&.author_of?(@question)    
         .card-footer

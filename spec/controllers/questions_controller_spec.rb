@@ -3,8 +3,7 @@ require 'rails_helper'
 RSpec.describe QuestionsController, type: :controller do
   let(:user){ create(:user) }
   let(:question) { create(:question, author: user) }
-  
-  
+
   describe 'GET #index' do
     let(:questions) { create_list(:question, 3, author: user) }
     before { get :index }

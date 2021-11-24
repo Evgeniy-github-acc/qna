@@ -4,5 +4,7 @@ Rails.application.routes.draw do
     resources :answers, shallow: true 
   end
 
+  resources :files, only: :destroy
+
   root to: 'questions#index'
 end
