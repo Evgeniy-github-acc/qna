@@ -5,10 +5,19 @@
       .row.no-gutters.align-items-center
         .col 
           = answer.body
+          -if answer.files.attached?
+            - answer.files.each do |file|
+              .answer-files.d-flex.flex-wrap
+                  = link_to file.filename.to_s, url_for(file)
+                  - if current_user&.author_of?(answer)  
+                    = link_to "Remove file", file_path(file), 
+                                              method: :delete,
+                                              remote: true,
+                                              class: "btn btn-shadow btn-wide btn-danger btn-xs"
     - if answer.persisted? && current_user&.author_of?(answer)
       .row.no-gutters.align-items-center
-        .col-10
-        .col-2
+        .col-9
+        .col-3
           .btn-group.mb-1
             = button_to 'Delete', answer_path(answer), method: :delete, remote: true,  class: "btn btn-shadow btn-wide btn-danger"
             = button_to 'Edit', '#', method: :get, data: { answer_id: answer.id },  class: "btn btn-shadow btn-wide btn-warning edit-answer-link" 
@@ -16,18 +25,21 @@
       = bootstrap_form_with model: answer, local: false, class: 'hidden', html: { id: "edit-answer-#{answer.id}"} do |f|
         = f.label :body
         = f.text_area :body
+        = f.label :files
+        = f.file_field :files, multiple: true, direct_upload: true
         = f.submit 'Save'
 
     .card-footer
       .row.no-gutters.align-items-center
-        .col-10
+        .col-9
           .text-muted.small.mt-1
             = " #{ time_ago_in_words(answer.created_at) } ago" 
             = "  by #{answer.author.email}"
-        .col-2
-          - if current_user&.author_of?(@question)  
+        .col-3    
+          .btn-group.mb-1.d-flex.flex-row-reverse
+            - if current_user&.author_of?(@question)  
             = button_to 'Best', question_path(answer.question, question: { best_answer_id: answer.id }), method: :patch, remote: true, class: "btn btn-shadow btn-wide btn-success" 
-        
+          
   
 
     
