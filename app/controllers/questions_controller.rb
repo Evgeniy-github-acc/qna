@@ -2,6 +2,8 @@ class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
   before_action :load_question, only: %i[show destroy update]
 
+  rescue_from ActiveRecord::RecordNotFound, with: :rescue_with_question_not_found
+
   def index
     @questions = Question.all
   end
@@ -14,6 +16,7 @@ class QuestionsController < ApplicationController
 
   def new
     @question = Question.new
+    @question.links.new
   end
 
   def create
@@ -46,6 +49,10 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    params.require(:question).permit(:title, :body, :best_answer_id,  files: [])
+    params.require(:question).permit(:title, :body, :best_answer_id,  files: [], links_attributes: [:name, :url])
+  end
+
+  def rescue_with_question_not_found
+    render html: '<p>Qeustion not found</p>'.html_safe
   end
 end

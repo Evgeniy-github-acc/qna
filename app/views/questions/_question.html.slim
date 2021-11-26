@@ -15,6 +15,9 @@
                                                method: :delete,
                                                remote: true,
                                                class: "btn btn-shadow btn-wide btn-danger btn-xs"
+            -if !question.links.empty?
+              - question.links.each do |l|
+                p = link_to l.name, l.url                                 
                 
       - if current_user&.author_of?(@question)    
         .card-footer
