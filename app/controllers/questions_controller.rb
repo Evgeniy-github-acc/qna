@@ -12,6 +12,7 @@ class QuestionsController < ApplicationController
     @answer = user_signed_in? ? current_user.answers.new() : Answer.new
     @best_answer = @question.best_answer
     @other_answers = @question.answers.not_best_answers(@question)
+    @answer.links.new
   end
 
   def new

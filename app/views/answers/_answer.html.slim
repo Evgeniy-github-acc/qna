@@ -14,6 +14,10 @@
                                               method: :delete,
                                               remote: true,
                                               class: "btn btn-shadow btn-wide btn-danger btn-xs"
+          -if !answer.links.empty?
+              - answer.links.each do |l|
+                p = link_to l.name, l.url
+
     - if answer.persisted? && current_user&.author_of?(answer)
       .row.no-gutters.align-items-center
         .col-9
