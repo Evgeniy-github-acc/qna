@@ -5,8 +5,9 @@ feature 'User can edit question', %q{
   created, to correct mistakes or add files 
 } do
   given!(:author) {create(:user)}
-  given!(:question) {create(:question, :with_answers, author: author)}
+  given!(:question) {create(:question, author: author)}
   given!(:question_with_files) {create(:question, :with_files, author: author)}
+  given!(:url) { 'https://google.com' }
 
 
   scenario 'Unauthenticated user can not edit question' do
@@ -50,6 +51,24 @@ feature 'User can edit question', %q{
       end
       expect(page).to have_link 'rails_helper.rb'
       expect(page).to have_link 'spec_helper.rb'
+    end
+
+    scenario 'attaches links when edits question', js: true do
+      sign_in author
+      visit question_path(question)
+
+      within '.question' do
+        click_on 'Edit'
+        click_on 'add link'
+
+        fill_in 'Name', with: 'Link'
+        fill_in 'Url', with: url
+
+        click_on 'Save'
+        wait_for_ajax
+
+        expect(page).to have_link 'Link', href: url
+      end
     end
     
     scenario 'deletes files attached to the question', js: true  do

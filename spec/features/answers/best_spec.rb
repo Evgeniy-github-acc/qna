@@ -26,7 +26,7 @@ feature 'Questions author can choose best answer', %q{
       expect(page).to_not have_content 'Best'
     end
 
-    scenario 'User, who is author tries to chose best answer', js: true do
+    scenario 'user, who is author tries to chose best answer', js: true do
       sign_in author
       visit question_path(question)
       

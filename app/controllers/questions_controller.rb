@@ -17,7 +17,7 @@ class QuestionsController < ApplicationController
 
   def new
     @question = Question.new
-    @question.links.new
+    @question.links.build
   end
 
   def create
@@ -32,6 +32,11 @@ class QuestionsController < ApplicationController
 
   def update
     @question.update(question_params) if current_user.author_of?(@question)
+    
+    if !question_params[:best_answer_id].nil? && !@question.award.nil?
+      @question.award.update(user: @question.best_answer.author)
+    end
+  
   end
 
   def destroy
@@ -50,7 +55,12 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    params.require(:question).permit(:title, :body, :best_answer_id,  files: [], links_attributes: [:name, :url])
+    params.require(:question).permit(:title, 
+                                     :body, 
+                                     :best_answer_id,  
+                                     files: [], 
+                                     links_attributes: [:name, :url, :_destroy],
+                                     award_attributes: [:id, :title, :image, :_destroy])
   end
 
   def rescue_with_question_not_found

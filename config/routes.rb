@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   end
 
   resources :files, only: :destroy
+  resources :links, only: :destroy
+  resources :users, only: :show
 
   root to: 'questions#index'
 end

@@ -6,6 +6,11 @@
         .row.no-gutters.align-items-center
           .col.ml-8 
             = question.body
+            -if !question.award.nil?
+              .award
+                .award-title= question.award.title
+                .award-img-container
+                  = image_tag url_for(question.award.image)
             -if question.files.attached?
               - question.files.each do |file|
                 .question-files.d-flex.flex-wrap
@@ -15,10 +20,15 @@
                                                method: :delete,
                                                remote: true,
                                                class: "btn btn-shadow btn-wide btn-danger btn-xs"
-            -if !question.links.empty?
-              - question.links.each do |l|
-                p = link_to l.name, l.url                                 
-                
+          -if !question.links.empty?
+            - question.links.each do |l|
+              - if l.gist?
+                = javascript_include_tag l.url+'.js'
+              - else  
+                p = link_to l.name, l.url
+              -if current_user&.author_of?(question)
+                =link_to 'Delete link', link_path(l), method: :delete, remote: true  
+                     
       - if current_user&.author_of?(@question)    
         .card-footer
           .row.no-gutters.align-items-center
@@ -33,6 +43,11 @@
           = f.text_area :body
           = f.label :files
           = f.file_field :files, multiple: true, direct_upload: true
+          #links
+          = f.fields_for :links do |l|
+            = render 'application/link_fields', f: l
+          .link-link 
+            = link_to_add_association 'add link', f, :links
           = f.submit 'Save'        
 
 -if question.best_answer 

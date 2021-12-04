@@ -6,9 +6,10 @@ feature 'User can edit answers', %q{
 } do
   given!(:author) {create(:user)}
   given!(:question) {create(:question, :with_answers, author: author)}
+  given!(:url) { 'https://google.com' }
 
 
-  scenario 'Unauthenticated user can not edit anser' do
+  scenario 'Unauthenticated user can not edit answer' do
     visit question_path(question)
 
     expect(page).to_not have_link 'Edit'
@@ -44,6 +45,25 @@ feature 'User can edit answers', %q{
       end
       expect(page).to have_link 'rails_helper.rb'
       expect(page).to have_link 'spec_helper.rb'
+    end
+
+    scenario 'adds links when edits answer', js: true do
+      sign_in author
+      visit question_path(question)
+
+      within '.answers' do
+        click_on('Edit', match: :first)
+        
+        click_on 'add link'
+
+        fill_in 'Name', with: 'Google'
+        fill_in 'Url', with: url
+
+        click_on 'Save'
+        wait_for_ajax
+
+        expect(page).to have_link 'Google', href: url
+      end
     end
 
       

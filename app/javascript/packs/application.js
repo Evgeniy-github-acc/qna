@@ -8,6 +8,7 @@ import Turbolinks from "turbolinks"
 import * as ActiveStorage from "@rails/activestorage"
 import "channels"
 import "jquery"
+import "@nathanvda/cocoon"
 import 'bootstrap/dist/js/bootstrap'
 import "bootstrap/dist/css/bootstrap"
 import "../utilities/edit_answer.js"
