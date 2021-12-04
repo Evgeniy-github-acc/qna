@@ -1,0 +1,5 @@
+h2 = 'Awards'
+- current_user.awards.each do |award|
+  = award.title
+  = award.question.title
+  = image_tag url_for(award.image)

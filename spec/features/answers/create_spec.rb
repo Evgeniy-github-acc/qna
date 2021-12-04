@@ -31,8 +31,6 @@ feature 'User can create answer', %q{
 
     scenario 'answers question with attached files', js: true do
       
-      #save_and_open_page
-      
       within page.find ".new-answer" do
         fill_in 'Body', with: 'lorem ipsum lorem ipsum lorem ipsum lorem ipsum'
       

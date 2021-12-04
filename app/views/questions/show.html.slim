@@ -19,6 +19,13 @@
           =f.text_area :body
           = f.label :files
           = f.file_field :files, multiple: true
+          p Links:
+          #links
+            = f.fields_for :links do |l|
+              = render 'application/link_fields', f: l
+            .link-link
+              = link_to_add_association 'add link', f, :links
+          
           = f.submit 'Answer', class: "btn btn-primary btn-sm float-right"
 
 

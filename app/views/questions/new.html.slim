@@ -1,12 +1,31 @@
 = render 'shared/errors', resource: @question
 
-= bootstrap_form_with model: @question, local: true  do |f|
-    
-    = f.label :title
-    = f.text_field :title
-    = f.label :body
-    = f.text_area :body
+.card.m-5
+    = bootstrap_form_with model: @question, local: true  do |f|
+        
+        .m-2
+          = f.text_field :title
+          = f.text_area :body, label_as_place_holder: true 
+          
+        .d-flex.m-2.border
+          .m-2
+            = f.file_field :files, multiple: true, direct_upload: true
 
-    = f.label :files
-    = f.file_field :files, multiple: true, direct_upload: true
-    = f.submit 'Ask'
+        .d-flex.m-2.border
+          .m-2 Links
+          #links
+            
+              = f.fields_for :links do |l|
+                = render 'application/link_fields', f: l
+              .link-link 
+                = link_to_add_association 'add link', f, :links
+        
+        .d-flex.m-2.border
+          .m-2 Award
+          #award        
+            = f.fields_for :award do |a|
+              = render 'award_fields', f: a
+            .award-link
+              = link_to_add_association 'add award', f, :award
+        
+        p.m-2 = f.submit 'Ask'

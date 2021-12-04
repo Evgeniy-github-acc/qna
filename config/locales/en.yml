@@ -31,3 +31,8 @@
 
 en:
   hello: "Hello world"
+
+  activerecord:
+    errors:
+      messages:
+        attached: is not attached

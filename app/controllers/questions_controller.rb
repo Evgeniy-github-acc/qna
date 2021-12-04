@@ -2,6 +2,8 @@ class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
   before_action :load_question, only: %i[show destroy update]
 
+  rescue_from ActiveRecord::RecordNotFound, with: :rescue_with_question_not_found
+
   def index
     @questions = Question.all
   end
@@ -10,10 +12,12 @@ class QuestionsController < ApplicationController
     @answer = user_signed_in? ? current_user.answers.new() : Answer.new
     @best_answer = @question.best_answer
     @other_answers = @question.answers.not_best_answers(@question)
+    @answer.links.new
   end
 
   def new
     @question = Question.new
+    @question.links.build
   end
 
   def create
@@ -28,6 +32,11 @@ class QuestionsController < ApplicationController
 
   def update
     @question.update(question_params) if current_user.author_of?(@question)
+    
+    if !question_params[:best_answer_id].nil? && !@question.award.nil?
+      @question.award.update(user: @question.best_answer.author)
+    end
+  
   end
 
   def destroy
@@ -46,6 +55,15 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    params.require(:question).permit(:title, :body, :best_answer_id,  files: [])
+    params.require(:question).permit(:title, 
+                                     :body, 
+                                     :best_answer_id,  
+                                     files: [], 
+                                     links_attributes: [:name, :url, :_destroy],
+                                     award_attributes: [:id, :title, :image, :_destroy])
+  end
+
+  def rescue_with_question_not_found
+    render html: '<p>Qeustion not found</p>'.html_safe
   end
 end
