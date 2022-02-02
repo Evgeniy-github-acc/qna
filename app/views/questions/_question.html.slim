@@ -1,68 +1,69 @@
-.question-area  
-  .container-fluid.mt-100
-    .d-flex.flex-wrap.justify-content-between
-    .card.mb-3
-      .card-body.py-3 
-        .row.no-gutters.align-items-center
-          .col.ml-8 
-            = question.body
-            -if !question.award.nil?
-              .award
-                .award-title= question.award.title
-                .award-img-container
-                  = image_tag url_for(question.award.image)
-            -if question.files.attached?
-              - question.files.each do |file|
-                .question-files.d-flex.flex-wrap
-                    = link_to file.filename.to_s, url_for(file)
-                    - if current_user&.author_of?(@question)  
-                      = link_to "Remove file", file_path(file), 
-                                               method: :delete,
-                                               remote: true,
-                                               class: "btn btn-shadow btn-wide btn-danger btn-xs"
-          -if !question.links.empty?
-            - question.links.each do |l|
-              - if l.gist?
-                = javascript_include_tag l.url+'.js'
-              - else  
-                p = link_to l.name, l.url
-              -if current_user&.author_of?(question)
-                =link_to 'Delete link', link_path(l), method: :delete, remote: true  
-                     
-      - if current_user&.author_of?(@question)    
-        .card-footer
-          .row.no-gutters.align-items-center
-            .col-9
-            .col-3
-              .btn-group.mb-1 
-                = button_to 'Delete question', question_path(question), method: :delete, class: "btn btn-shadow btn-wide btn-danger btn-sm"
-                = button_to 'Edit', '#', method: :get, data: { question_id: question.id },  class: "btn btn-shadow btn-wide btn-warning edit-question-link" 
-        
-        = bootstrap_form_with model: question, local: false, class: 'hidden', html: { id: "edit-question-#{question.id}"} do |f|
-          = f.label :body
-          = f.text_area :body
-          = f.label :files
-          = f.file_field :files, multiple: true, direct_upload: true
-          #links
-          = f.fields_for :links do |l|
-            = render 'application/link_fields', f: l
-          .link-link 
-            = link_to_add_association 'add link', f, :links
-          = f.submit 'Save'        
-
--if question.best_answer 
-  .best-answer
-    .container-fluid.mt-50
+  .question-area
+    .container-fluid.mt-100
       .d-flex.flex-wrap.justify-content-between
-      .card.mb-3 [id = "answer-#{question.best_answer_id}"]
-        .card-header
+      .card.mb-3
+        .card-body.py-3 
           .row.no-gutters.align-items-center
-            .col  Best answer 
-        .card-body.py-3
-          .row.no-gutters.align-items-center
-            .col 
-              = question.best_answer.body
+            .col-10.ml-8 
+              = question.body
+            .col-2
+              = render partial: 'shared/rating', locals: { resource: @question }  
+              -if !question.award.nil?
+                .award
+                  .award-title= question.award.title
+                  .award-img-container
+                    = image_tag url_for(question.award.image)
+              -if question.files.attached?
+                - question.files.each do |file|
+                  .question-files.d-flex.flex-wrap
+                      = link_to file.filename.to_s, url_for(file)
+                      - if current_user&.author_of?(@question)  
+                        = link_to "Remove file", file_path(file), 
+                                                method: :delete,
+                                                remote: true,
+                                                class: "btn btn-shadow btn-wide btn-danger btn-xs"
+            -if !question.links.empty?
+              - question.links.each do |l|
+                - if l.gist?
+                  = javascript_include_tag l.url+'.js'
+                - else  
+                  p = link_to l.name, l.url
+                -if current_user&.author_of?(question)
+                  =link_to 'Delete link', link_path(l), method: :delete, remote: true  
+                      
+        - if current_user&.author_of?(@question)    
+          .card-footer
+            .row.no-gutters.align-items-center
+              .col-9
+              .col-3
+                .btn-group.mb-1 
+                  = button_to 'Delete question', question_path(question), method: :delete, class: "btn btn-shadow btn-wide btn-danger btn-sm"
+                  = button_to 'Edit', '#', method: :get, data: { question_id: question.id },  class: "btn btn-shadow btn-wide btn-warning edit-question-link" 
+          
+          = bootstrap_form_with model: question, local: false, class: 'hidden', html: { id: "edit-question-#{question.id}"} do |f|
+            = f.label :body
+            = f.text_area :body
+            = f.label :files
+            = f.file_field :files, multiple: true, direct_upload: true
+            #links
+            = f.fields_for :links do |l|
+              = render 'application/link_fields', f: l
+            .link-link 
+              = link_to_add_association 'add link', f, :links
+            = f.submit 'Save'        
+
+  -if question.best_answer 
+    .best-answer
+      .container-fluid.mt-50
+        .d-flex.flex-wrap.justify-content-between
+        .card.mb-3 [id = "answer-#{question.best_answer_id}"]
+          .card-header
+            .row.no-gutters.align-items-center
+              .col  Best answer 
+          .card-body.py-3
+            .row.no-gutters.align-items-center
+              .col 
+                = question.best_answer.body
 
 
-.answers
-  = render question.answers
+  

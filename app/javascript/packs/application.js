@@ -13,6 +13,7 @@ import 'bootstrap/dist/js/bootstrap'
 import "bootstrap/dist/css/bootstrap"
 import "../utilities/edit_answer.js"
 import "../utilities/edit_question.js"
+import "../utilities/vote.js"
 
 Rails.start()
 Turbolinks.start()

@@ -1,13 +1,18 @@
 .container-fluid.mt-20.ml-20
-  h1 = @question.title
-
+  .row.no-gutters.align-items-center
+    .col-10
+      h1 = @question.title
+            
 
 .errors
   =render 'shared/errors', resource: @answer
   =render 'shared/errors', resource: @question
 
-.question
+.question*{'item-id': @question.id}
   = render @question
+
+.answers
+  = render @question.answers
 
 .container-fluid.mt-20.new-answer
   .d-flex.flex-wrap.justify-content-between

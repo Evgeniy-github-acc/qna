@@ -1,0 +1,20 @@
+.vote
+  - if current_user && !current_user.author_of?(resource)
+    = button_to send("vote_#{resource.class.to_s.underscore}_path", resource), 
+                      params: {value: 1}, 
+                      method: :post, 
+                      remote: true, 
+                      format: JSON,
+                      class: "vote-up"
+        = fa_icon "chevron-up"
+    
+  .rating = resource.rating
+  
+  - if current_user && !current_user.author_of?(resource)
+    = button_to send("vote_#{resource.class.to_s.underscore}_path", resource), 
+                      params: {value: -1}, 
+                      method: :post, 
+                      remote: true, 
+                      format: JSON, 
+                      class: "vote-down"
+        = fa_icon "chevron-down"

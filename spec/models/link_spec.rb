@@ -22,6 +22,4 @@ RSpec.describe Link, type: :model do
       expect(link).to_not be_gist
     end
   end
-  
-
 end
