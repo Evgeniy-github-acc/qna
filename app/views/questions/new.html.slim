@@ -1,7 +1,7 @@
 = render 'shared/errors', resource: @question
 
 .card.m-5
-    = bootstrap_form_with model: @question, local: true  do |f|
+    = bootstrap_form_with model: @question do |f|
         
         .m-2
           = f.text_field :title
