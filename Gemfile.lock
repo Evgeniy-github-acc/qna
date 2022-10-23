@@ -129,6 +129,10 @@ GEM
       railties (>= 3.2, < 7)
     globalid (0.5.2)
       activesupport (>= 5.0)
+    handlebars (0.8.0)
+      handlebars-source (~> 4.0.5)
+      therubyracer (~> 0.12.1)
+    handlebars-source (4.0.14)
     i18n (1.8.11)
       concurrent-ruby (~> 1.0)
     jbuilder (2.11.2)
@@ -140,6 +144,7 @@ GEM
       thor (>= 0.14, < 2.0)
     launchy (2.5.0)
       addressable (~> 2.7)
+    libv8 (3.16.14.19-x86_64-linux)
     listen (3.7.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
@@ -208,6 +213,7 @@ GEM
     rb-inotify (0.10.1)
       ffi (~> 1.0)
     redis (4.8.0)
+    ref (2.0.0)
     regexp_parser (2.1.1)
     responders (3.0.1)
       actionpack (>= 5.0)
@@ -264,6 +270,9 @@ GEM
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
     temple (0.8.2)
+    therubyracer (0.12.3)
+      libv8 (~> 3.16.14.15)
+      ref
     thor (1.1.0)
     tilt (2.0.10)
     turbolinks (5.2.1)
@@ -309,6 +318,7 @@ DEPENDENCIES
   dotenv-rails
   factory_bot_rails
   font-awesome-rails
+  handlebars
   jbuilder (~> 2.7)
   jquery-rails
   launchy
