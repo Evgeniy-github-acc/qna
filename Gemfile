@@ -36,6 +36,8 @@ gem "aws-sdk-s3", require: false
 gem "cocoon"
 gem "font-awesome-rails"
 gem 'handlebars'
+gem 'decent_exposure', '~> 3.0'
+gem 'gon'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

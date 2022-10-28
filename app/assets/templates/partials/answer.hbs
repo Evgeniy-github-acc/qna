@@ -1,0 +1,33 @@
+<div class="container-fluid mt-50 answer" item-id="{{ answer.id }}">
+  <div class="card mb-3" id="{{ answer.id }}">
+    <div class="card-header">
+      <div class="text-muted small mt-1"> {{ answer.created_at }} {{ answer.author.email }} </div>
+    </div>
+    <div class="card-body">
+      <div class="row no-gutters align-items-center">
+        <div class="col-10">
+          {{ answer.body }}
+          <div class="links"> 
+            {{#each answer.links}}
+              <a href="{{ this.url }}">{{this.name}}</a>
+            {{/each}}
+          </div>
+        </div>
+        <div class="col-2">
+          <div class="vote">
+            <div class="rating">{{ answer.rating }}</div>
+          </div>
+        </div>
+ 
+      </div>
+    <div class="card-footer">
+      <div class="btn-group mb-1 d-flex flex-row-reverse">
+        <form class="button_to" method="post" action="/questions/{{answer.question_id}}?question%5Bbest_answer_id%5D={{answer.id}}" data-remote="true">
+          <input type="hidden" name="_method" value="patch">
+          <input class="btn btn-shadow btn-wide btn-success" type="submit" value="Best">
+        </form>
+      </div>
+    </div>
+   
+  </div>
+</div>

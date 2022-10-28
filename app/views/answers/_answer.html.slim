@@ -1,6 +1,10 @@
 .container-fluid.mt-50.answer*{'item-id': answer.id}
   .d-flex.flex-wrap.justify-content-between
   .card.mb-3 [id = "answer-#{answer.id}"]
+    .card-header
+      .text-muted.small.mt-1
+        = " #{ time_ago_in_words(answer.created_at) } ago" 
+        = "  by #{answer.author.email}"
     .card-body.py-3 
       .row.no-gutters.align-items-center
         .col-10
@@ -15,45 +19,25 @@
                                             remote: true,
                                             class: "btn btn-shadow btn-wide btn-danger btn-xs"
                                           
-          -if !answer.links.empty?
-            - answer.links.each do |l|
-              - if l.gist?
-                = javascript_include_tag l.url+'.js'
-              p = link_to l.name, l.url
-              -if current_user&.author_of?(answer)
-                = link_to 'Delete link', link_path(l), method: :delete, remote: true
+          .links
+            = render  partial: 'links/link', locals: { resource: answer } 
         .col-2 
           = render partial: 'shared/rating', locals: { resource: answer }
-
-    - if answer.persisted? && current_user&.author_of?(answer)
-      .row.no-gutters.align-items-center
-        .col-9
-        .col-3
-          .btn-group.mb-1
-            = button_to 'Delete', answer_path(answer), method: :delete, remote: true,  class: "btn btn-shadow btn-wide btn-danger"
-            = button_to 'Edit', '#', method: :get, data: { answer_id: answer.id },  class: "btn btn-shadow btn-wide btn-warning edit-answer-link" 
-      
-      = bootstrap_form_with model: answer, local: false, class: 'hidden', html: { id: "edit-answer-#{answer.id}"} do |f|
-        = f.text_area :body
-        = f.file_field :files, multiple: true, direct_upload: true
-        #links
-        = f.fields_for :links do |l|
-          = render 'application/link_fields', f: l
-        .link-link
-          = link_to_add_association 'add link', f, :links
-        = f.submit 'Save'
+              
+        = bootstrap_form_with model: answer, local: false, class: 'hidden', html: { id: "edit-answer-#{answer.id}"} do |f|
+          = f.text_area :body
+          = f.file_field :files, multiple: true, direct_upload: true
+          #links
+          = f.fields_for :links do |l|
+            = render 'application/link_fields', f: l
+          .link-link
+            = link_to_add_association 'add link', f, :links
+          = f.submit 'Save'
 
     .card-footer
-      .row.no-gutters.align-items-center
-        .col-9
-          .text-muted.small.mt-1
-            = " #{ time_ago_in_words(answer.created_at) } ago" 
-            = "  by #{answer.author.email}"
-        .col-3    
-          .btn-group.mb-1.d-flex.flex-row-reverse
-            - if current_user&.author_of?(@question)  
-            = button_to 'Best', question_path(answer.question, question: { best_answer_id: answer.id }), method: :patch, remote: true, class: "btn btn-shadow btn-wide btn-success" 
-          
-  
-
-    
+      .btn-group.mb-1.d-flex.flex-row-reverse
+        - if answer.persisted? && current_user&.author_of?(answer)
+          = button_to 'Delete', answer_path(answer), method: :delete, remote: true,  class: "btn btn-shadow btn-wide btn-danger"
+          = button_to 'Edit', '#', method: :get, data: { answer_id: answer.id },  class: "btn btn-shadow btn-wide btn-warning edit-answer-link" 
+        - if current_user&.author_of?(@question)  
+          = button_to 'Best', question_path(answer.question, question: { best_answer_id: answer.id }), method: :patch, remote: true, class: "btn btn-shadow btn-wide btn-success"
