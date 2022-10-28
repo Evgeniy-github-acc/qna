@@ -1,5 +1,7 @@
 const { environment } = require('@rails/webpacker')
 
+const path = require('path')
+
 const webpack = require('webpack')
 environment.plugins.prepend('Provide',
   new webpack.ProvidePlugin({
@@ -12,11 +14,11 @@ environment.loaders.prepend('Handlebars', {
   test: /\.hbs$/,
   use: {
     loader: 'handlebars-loader',
-   // query: {
-   //   knownHelpersOnly: false,
-   //   helperDirs: [ path.resolve(__dirname, "../../app/assets/templates/helpers/") ],
-   //   templateDirs: [ path.resolve(__dirname, "../../app/assets/templates/partials") ]
-   // }
+    query: {
+      knownHelpersOnly: false,
+      helperDirs: [ path.resolve(__dirname, "../../app/assets/templates/helpers/") ],
+      templateDirs: [ path.resolve(__dirname, "../../app/assets/templates/partials") ]
+    }
   }
 });
 
