@@ -28,11 +28,11 @@
           = f.text_area :body
           = f.file_field :files, multiple: true, direct_upload: true
           #links
-          = f.fields_for :links do |l|
-            = render 'application/link_fields', f: l
-          .link-link
-            = link_to_add_association 'add link', f, :links
-          = f.submit 'Save'
+            = f.fields_for :links do |l|
+              = render 'application/link_fields', f: l
+            .link-link
+              = link_to_add_association 'add link', f, :links
+            = f.submit 'Save'
 
     .card-footer
       .btn-group.mb-1.d-flex.flex-row-reverse
