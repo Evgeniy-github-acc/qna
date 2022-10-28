@@ -12,11 +12,11 @@ environment.loaders.prepend('Handlebars', {
   test: /\.hbs$/,
   use: {
     loader: 'handlebars-loader',
-    query: {
-      knownHelpersOnly: false,
-      helperDirs: [ path.resolve(__dirname, "../../app/assets/templates/helpers/") ],
-      templateDirs: [ path.resolve(__dirname, "../../app/assets/templates/partials") ]
-    }
+   // query: {
+   //   knownHelpersOnly: false,
+   //   helperDirs: [ path.resolve(__dirname, "../../app/assets/templates/helpers/") ],
+   //   templateDirs: [ path.resolve(__dirname, "../../app/assets/templates/partials") ]
+   // }
   }
 });
 

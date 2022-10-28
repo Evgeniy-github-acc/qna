@@ -18,15 +18,9 @@
             <div class="rating">{{ answer.rating }}</div>
           </div>
         </div>
- 
-      </div>
+       </div>
     <div class="card-footer">
-      <div class="btn-group mb-1 d-flex flex-row-reverse">
-        <form class="button_to" method="post" action="/questions/{{answer.question_id}}?question%5Bbest_answer_id%5D={{answer.id}}" data-remote="true">
-          <input type="hidden" name="_method" value="patch">
-          <input class="btn btn-shadow btn-wide btn-success" type="submit" value="Best">
-        </form>
-      </div>
+
     </div>
    
   </div>
