@@ -1,8 +1,5 @@
 Rails.application.routes.draw do
   devise_for :users
-  #resources :questions do
-  #  resources :answers, shallow: true 
-  #end
 
   concern :votable do
     member do
@@ -10,8 +7,11 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :questions, concerns: :votable, defaults: { votable: 'questions' } do
+  resources :questions, shallow: true, concerns: :votable, defaults: { votable: 'questions' } do
+    resources :comments, defaults: { commentable: 'questions' }, only: %i[create update destroy]
+    
     resources :answers, shallow: true, concerns: :votable, defaults: { votable: 'answers' }
+      resources :comments, defaults: { commentable: 'answers' }, only: %i[create update destroy]
   end
 
   resources :files, only: :destroy

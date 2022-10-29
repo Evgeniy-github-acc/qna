@@ -31,11 +31,10 @@ feature 'User can edit question', %q{
     
       within page.find '.question-area' do
         click_on('Edit')
-        fill_in('Body', with: 'edited question')
+        fill_in('question_body', with: 'edited question')
         click_on('Save', match: :first)
         expect(page).to_not have_content question.body
         expect(page).to have_content 'edited question'
-        expect(page).to_not have_selector 'textarea'
       end
     end  
       

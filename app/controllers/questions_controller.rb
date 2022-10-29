@@ -1,5 +1,8 @@
 class QuestionsController < ApplicationController
   include Voted
+
+  expose :comments,         -> { @question.comments }
+  expose :comment,          -> { @question.comments.new }
   
   before_action :authenticate_user!, except: %i[index show]
   before_action :load_question, only: %i[show destroy update]

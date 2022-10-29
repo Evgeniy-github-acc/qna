@@ -1,0 +1,5 @@
+.comment_form = form_with model: [commentable, comment], local: false do |f|
+  .col-9
+    = f.text_area :body
+  .col-3
+    = f.submit

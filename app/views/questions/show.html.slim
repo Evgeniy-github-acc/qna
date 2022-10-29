@@ -43,11 +43,19 @@
                 -if current_user&.author_of?(@question)
                   =link_to 'Delete link', link_path(l), method: :delete, remote: true  
                       
-        - if current_user&.author_of?(@question)    
-          .card-footer
-            .row.no-gutters.align-items-center
-              .col-9
-              .col-3
+           
+        .card-footer
+          .question-comments
+            = render  @question.comments 
+          .comment-question
+            -if current_user.present?
+              = render partial: "comments/form", locals: { commentable: @question }  
+
+
+          .row.no-gutters.align-items-center
+            .col-9
+            .col-3
+              - if current_user&.author_of?(@question)
                 .btn-group.mb-1 
                   = button_to 'Delete question', question_path(@question), method: :delete, class: "btn btn-shadow btn-wide btn-danger btn-sm"
                   = button_to 'Edit', '#', method: :get, data: { question_id: @question.id },  class: "btn btn-shadow btn-wide btn-warning edit-question-link" 
@@ -80,7 +88,7 @@
 .answers
   = render @question.answers
 
-- if current_user
+- if current_user.present?
   .container-fluid.mt-20.new-answer
     .d-flex.flex-wrap.justify-content-between
     .card.mb-3
