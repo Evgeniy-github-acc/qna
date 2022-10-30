@@ -1,4 +1,4 @@
-.comment_form = form_with model: [commentable, comment], local: false do |f|
+.comment_form = form_with model: [commentable, commentable.comments.new], local: false do |f|
   .col-9
     = f.text_area :body
   .col-3

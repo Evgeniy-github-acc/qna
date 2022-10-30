@@ -5,6 +5,7 @@ class CommentsController < ApplicationController
 
   def create
     @comment = @commentable.comments.create((comments_params).merge(author: current_user))
+    @commentable_class = @commentable.class.name.downcase
   end
 
   def destroy
@@ -12,7 +13,7 @@ class CommentsController < ApplicationController
     if @comment.commentable.instance_of?(Question)
       @question = @comment.commentable
     elsif @comment.commentable.instance_of?(Answer)
-      @answer = @comment.commentable.answer
+      @answer = @comment.commentable
     end
     
     @comment.destroy
@@ -22,7 +23,7 @@ class CommentsController < ApplicationController
     if @comment.commentable.instance_of?(Question)
       @question = @comment.commentable
     elsif @comment.commentable.instance_of?(Answer)
-      @answer = @comment.commentable.answer
+      @answer = @comment.commentable
     end
 
     @comment.update(comments_params)

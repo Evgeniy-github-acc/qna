@@ -1,6 +1,10 @@
 $('.errors').html('<%= render 'shared/errors', resource: @comment %>');
 
-<% if @comment.persisted? %>
-  $('.question-comments').append('<%= j render @comment %>');
+<% if !@comment.errors.present? %>
+  <% if @comment.commentable.instance_of?(Question) %>
+    $('.question-comments').append('<%= j render @comment %>');
+  <% elsif @comment.commentable.instance_of?(Answer) %>
+    $('#answer-'+'<%= @commentable.id %>').find('.answer-comments').append('<%= j render @comment %>');
+  <% end %>
   $('#comment_body').val('');
 <% end %>

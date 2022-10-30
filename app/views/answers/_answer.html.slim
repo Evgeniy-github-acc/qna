@@ -35,6 +35,13 @@
             = f.submit 'Save'
 
     .card-footer
+      .answer-comments
+        - if answer.comments.present?
+          = render partial: 'comments/comment', collection: answer.comments
+      .comment-answer
+        -if current_user.present?
+          = render partial: "comments/form", locals: { commentable: answer }     
+      
       .btn-group.mb-1.d-flex.flex-row-reverse
         - if answer.persisted? && current_user&.author_of?(answer)
           = button_to 'Delete', answer_path(answer), method: :delete, remote: true,  class: "btn btn-shadow btn-wide btn-danger"
