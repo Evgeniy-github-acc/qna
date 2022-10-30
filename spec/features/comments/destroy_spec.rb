@@ -14,7 +14,7 @@ feature 'User can destroy comment', %q{
     scenario "tries to delete comment" do
       comment
       visit question_path(question)
-      expect(page).to have_no_link("Delete")
+      expect(page).to have_no_button("Delete")
     end
   end
 
@@ -24,7 +24,7 @@ feature 'User can destroy comment', %q{
     scenario "tries to delete other's comment" do
       other_comment
       visit question_path(question)
-      expect(find(".question-comment", text: other_comment.body)).to have_no_link("Delete")
+      expect(find(".comment", text: other_comment.body)).to have_no_button("Delete")
     end
 
     scenario "deletes own comment" do

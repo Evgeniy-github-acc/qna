@@ -12,11 +12,22 @@ class CommentsController < ApplicationController
     if @comment.commentable.instance_of?(Question)
       @question = @comment.commentable
     elsif @comment.commentable.instance_of?(Answer)
-      @question = @comment.commentable.question
+      @answer = @comment.commentable.answer
     end
     
     @comment.destroy
   end
+
+  def update
+    if @comment.commentable.instance_of?(Question)
+      @question = @comment.commentable
+    elsif @comment.commentable.instance_of?(Answer)
+      @answer = @comment.commentable.answer
+    end
+
+    @comment.update(comments_params)
+  end
+  
   
   private
 

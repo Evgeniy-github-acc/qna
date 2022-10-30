@@ -1,5 +1,6 @@
-.container-fluid.mt-50.question-comment*{'item-id': comment.id}  
+.container-fluid.mt-50.comment*{'item-id': comment.id}  
   = comment.body
   - if current_user&.author_of?(comment)
-    = link_to  'Delete', comment_path(comment), method: :delete, remote: true, class: "btn"
-    = link_to  'Edit', '#', method: :get, data: { comment_id: comment.id }, class: "btn"
+    = render "comments/form_in_line", comment: comment 
+    = button_to  'Edit', '#', method: :get, data: { comment_id: comment.id }, class: "btn edit-comment-link"
+    = button_to  'Delete', comment_path(comment), method: :delete, remote: true, class: "btn"
