@@ -1,6 +1,10 @@
-.container-fluid.mt-50.comment*{'item-id': comment.id}  
-  = comment.body
-  - if current_user&.author_of?(comment)
-    = render "comments/form_in_line", comment: comment 
-    = button_to  'Edit', '#', method: :get, data: { comment_id: comment.id }, class: "btn edit-comment-link"
-    = button_to  'Delete', comment_path(comment), method: :delete, remote: true, class: "btn"
+.container-fluid.mt-50.comment*{'item-id': comment.id}
+  .card
+    .card-body
+      = comment.body
+    - if current_user&.author_of?(comment)
+      .card-footer
+        = render "comments/form_in_line", comment: comment
+        .btn-group.mb-1.d-flex.flex-row-reverse
+          = button_to  'Edit', '#', method: :get, data: { comment_id: comment.id }, class: "btn edit-comment-link"
+          = button_to  'Delete', comment_path(comment), method: :delete, remote: true, class: "btn"

@@ -12,15 +12,11 @@ function ready(){
       this.perform("follow", { question_id: gon.question_id } )
     },
 
-    disconnected() {
-      // Called when the subscription has been terminated by the server
-    },
-
     received(data) {
-     
       var answer = JSON.parse(data)
-      $('.answers').append(answer_template({answer: answer, current_user_id: current_user_id}))
-      console.log(current_user_id)
+      if (typeof(gon.current_user) == 'undefined' || gon.current_user.id !== answer.author.id ){
+        $('.answers').append(answer_template({answer: answer, current_user_id: current_user_id}))
+      }
     }
   })
 }
