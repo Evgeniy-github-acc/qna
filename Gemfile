@@ -40,6 +40,7 @@ gem 'decent_exposure', '~> 3.0'
 gem 'gon'
 gem 'omniauth'
 gem 'omniauth-github'
+gem 'omniauth-facebook'
 gem "omniauth-rails_csrf_protection"
 
 group :development, :test do
