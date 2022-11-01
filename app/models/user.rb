@@ -7,7 +7,8 @@ class User < ApplicationRecord
   has_many :awards
   
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+         :recoverable, :rememberable, :validatable,
+         :omniauthable, omniauth_providers: [:github]
 
   def author_of?(resource)
     resource.author_id == self.id
