@@ -8,6 +8,7 @@ RSpec.describe Answer, type: :model do
 
   it_behaves_like 'linkable'
   it_behaves_like 'votable'
+  it_behaves_like 'commentable'
  
   describe 'mark_as_best' do
     let!(:user) { create(:user) }

@@ -1,0 +1,5 @@
+<% if @comment.commentable.instance_of?(Question) %>
+  $('.question-comments').html('<%= j render @question.comments %>');
+<% elsif @comment.commentable.instance_of?(Answer) %>
+  $('.answer-comments').html('<%= j render @answer.comments %>');
+<% end %>

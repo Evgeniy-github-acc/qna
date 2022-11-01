@@ -1,8 +1,10 @@
 class QuestionsController < ApplicationController
   include Voted
-  
+
   before_action :authenticate_user!, except: %i[index show]
   before_action :load_question, only: %i[show destroy update]
+
+  after_action :publish_question, only: :create
 
   rescue_from ActiveRecord::RecordNotFound, with: :rescue_with_question_not_found
 
@@ -15,6 +17,7 @@ class QuestionsController < ApplicationController
     @best_answer = @question.best_answer
     @other_answers = @question.answers.not_best_answers(@question)
     @answer.links.new
+    gon.question_id = @question.id
   end
 
   def new
@@ -67,5 +70,17 @@ class QuestionsController < ApplicationController
 
   def rescue_with_question_not_found
     render html: '<p>Qeustion not found</p>'.html_safe
+  end
+
+  def publish_question
+    return if @question.errors.any?
+
+    ActionCable.server.broadcast(
+      'question_channel',
+      ApplicationController.render(
+        partial: 'questions/question',
+        locals: { question: @question }
+      )
+    )
   end
 end

@@ -1,0 +1,8 @@
+= form_with url: comment_path(comment), 
+                 model: comment, 
+                 method: :patch, 
+                 local: false, 
+                 class: "hidden", 
+                 html: { id: "edit-comment-#{comment.id}"} do |f|
+  = f.text_area :body
+  = f.submit

@@ -1,0 +1,10 @@
+.container-fluid.mt-50
+  .d-flex.flex-wrap.justify-content-between
+  .card
+    .card-body
+      .row.no-gutters.align-items-center
+        .comment_form = form_with model: [commentable, commentable.comments.new], local: false do |f|
+          .col-9
+            = f.text_area :body
+          .col-3
+            = f.submit
