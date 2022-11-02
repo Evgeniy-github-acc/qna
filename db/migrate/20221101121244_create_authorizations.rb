@@ -7,5 +7,8 @@ class CreateAuthorizations < ActiveRecord::Migration[6.1]
 
       t.timestamps
     end
+
+    add_index :authorizations, [:provider, :uid]
+    #Ex:- add_index("admin_users", "username")
   end
 end
