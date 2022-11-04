@@ -9,7 +9,8 @@ class User < ApplicationRecord
   
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
-         :omniauthable, omniauth_providers: %i[github facebook]
+         :confirmable,
+         :omniauthable, omniauth_providers: %i[github facebook vkontakte]
 
   def author_of?(resource)
     resource.author_id == self.id
@@ -18,5 +19,4 @@ class User < ApplicationRecord
   def self.find_for_oauth(auth)
     FindForOauth.new(auth).call
   end
-  
 end
