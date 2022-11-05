@@ -4,6 +4,8 @@ class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
   before_action :load_question, only: %i[show destroy update]
 
+  authorize_resource
+
   after_action :publish_question, only: :create
 
   rescue_from ActiveRecord::RecordNotFound, with: :rescue_with_question_not_found
