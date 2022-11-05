@@ -88,6 +88,5 @@ RSpec.describe FindForOauth do
         expect(subject.call).to be_nil
       end
     end
-    
   end
 end

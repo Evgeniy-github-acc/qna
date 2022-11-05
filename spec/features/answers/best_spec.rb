@@ -50,7 +50,5 @@ feature 'Questions author can choose best answer', %q{
         expect(page).to have_content question.answers.first.body
       end
     end
-     
-    
   end
 end

@@ -56,7 +56,5 @@ feature 'User can add links to answer', %q{
 
     expect(page).to have_link 'My gist', href: gist_url
     expect(page).to have_link 'My gist2', href: gist_url
-   
   end
- 
 end

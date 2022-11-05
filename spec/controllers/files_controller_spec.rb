@@ -21,6 +21,5 @@ RSpec.describe FilesController, type: :controller do
         expect { delete :destroy, params: { id: question.files.first }, format: :js }.to_not change(question.files, :count)
       end 
     end
-
   end  
 end

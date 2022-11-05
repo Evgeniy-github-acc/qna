@@ -15,7 +15,6 @@ feature 'User can delete links from question', %q{
 
     click_on 'Delete link'
     expect(page).to_not have_link link.name, href: link.url
-    
   end
 
   scenario 'Authenticated user tries delete link from question of another user' do
@@ -23,13 +22,11 @@ feature 'User can delete links from question', %q{
     visit question_path(question)
 
     expect(page).to_not have_link 'Delete link'
-    
   end
 
   scenario 'Unauthenticated user tries delete link from question' do
     visit question_path(question)
 
     expect(page).to_not have_link 'Delete link'
-    
   end
 end

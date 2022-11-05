@@ -17,19 +17,18 @@ feature 'User can delete question', %q{
   end
 
 
-    scenario "user tries to delete someone's question" do
-      sign_in(user)
-      visit question_path(question)
-      
-      expect(page).not_to have_link 'Delete question' 
-    end
+  scenario "user tries to delete someone's question" do
+    sign_in(user)
+    visit question_path(question)
     
-    scenario "user tries to delete own question" do
-      sign_in(author)
-      visit question_path(question)
-      click_on 'Delete question'
-      
-      expect(page).to have_content 'Your question successfully deleted.' 
-    end
-
+    expect(page).not_to have_link 'Delete question' 
+  end
+  
+  scenario "user tries to delete own question" do
+    sign_in(author)
+    visit question_path(question)
+    click_on 'Delete question'
+    
+    expect(page).to have_content 'Your question successfully deleted.' 
+  end
 end

@@ -11,5 +11,4 @@ class HttpUrlValidator < ActiveModel::EachValidator
       record.errors.add(attribute, "Link is not a valid HTTP URL")
     end
   end
-
 end

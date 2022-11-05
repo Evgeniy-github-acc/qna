@@ -6,4 +6,3 @@ class ApplicationController < ActionController::Base
     gon.current_user = current_user
   end
 end
-

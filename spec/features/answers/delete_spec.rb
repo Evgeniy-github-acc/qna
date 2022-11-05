@@ -31,5 +31,4 @@ feature 'User can delete answers', %q{
     
     expect(page).not_to have_button 'Delete answer' 
   end
-
 end

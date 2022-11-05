@@ -34,4 +34,4 @@ RSpec.shared_examples_for "votable" do
       expect{votable.voting(user: user, value: -1)}.to_not change(votable, :rating)
     end
   end
-end 
+end

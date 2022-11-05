@@ -78,8 +78,6 @@ feature 'User can edit question', %q{
       expect(page).to_not have_link question_with_files.files.first.filename.to_s
     end
     
-
-
     scenario 'edits his question with errors', js: true do
       sign_in author
       visit question_path(question)
