@@ -61,4 +61,4 @@ feature 'User can vote for answers and questions', %q{
       end
     end
   end
-end 
+end

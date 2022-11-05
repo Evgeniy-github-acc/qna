@@ -38,6 +38,11 @@ gem "font-awesome-rails"
 gem 'handlebars'
 gem 'decent_exposure', '~> 3.0'
 gem 'gon'
+gem 'omniauth'
+gem 'omniauth-github'
+gem 'omniauth-facebook'
+gem 'omniauth-vkontakte'
+gem "omniauth-rails_csrf_protection"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -46,6 +51,7 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'rails-controller-testing'
   gem 'dotenv-rails'
+  gem "letter_opener"
 end
 
 group :development do
@@ -65,6 +71,7 @@ group :test do
   gem 'webdrivers'
   gem 'shoulda-matchers'
   gem 'launchy'
+  gem 'capybara-email'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
