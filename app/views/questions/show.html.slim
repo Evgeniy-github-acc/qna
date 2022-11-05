@@ -29,7 +29,7 @@
                 - @question.files.each do |file|
                   .question-files.d-flex.flex-wrap
                       = link_to file.filename.to_s, url_for(file)
-                      - if current_user&.author_of?(@question)  
+                      - if can?(:destroy, file) 
                         = link_to "Remove file", file_path(file), 
                                                 method: :delete,
                                                 remote: true,
@@ -40,7 +40,7 @@
                   = javascript_include_tag l.url+'.js'
                 - else  
                   p = link_to l.name, l.url
-                -if current_user&.author_of?(@question)
+                -if can?(:destroy, l)
                   =link_to 'Delete link', link_path(l), method: :delete, remote: true  
                       
            
@@ -48,16 +48,17 @@
           .question-comments
             = render  @question.comments 
           .comment-question
-            -if current_user.present?
+            -if can?(:create, Comment)
               = render partial: "comments/form", locals: { commentable: @question }  
 
 
           .row.no-gutters.align-items-center
             .col-9
             .col-3
-              - if current_user&.author_of?(@question)
-                .btn-group.mb-1 
+              .btn-group.mb-1
+                - if can?(:destroy, @question) 
                   = button_to 'Delete question', question_path(@question), method: :delete, class: "btn btn-shadow btn-wide btn-danger btn-sm"
+                - if can?(:update, @question)  
                   = button_to 'Edit', '#', method: :get, data: { question_id: @question.id },  class: "btn btn-shadow btn-wide btn-warning edit-question-link" 
           
           = bootstrap_form_with model: @question, local: false, class: 'hidden', html: { id: "edit-question-#{@question.id}"} do |f|
@@ -88,7 +89,7 @@
 .answers
   = render @question.answers
 
-- if current_user.present?
+- if can?(:create, @answer)
   .container-fluid.mt-20.new-answer
     .d-flex.flex-wrap.justify-content-between
     .card.mb-3

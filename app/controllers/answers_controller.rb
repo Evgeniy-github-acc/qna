@@ -3,11 +3,11 @@ class AnswersController < ApplicationController
   
   before_action :authenticate_user!
   before_action :load_question, only: [:new, :create]
-  
+  before_action :load_answer, only: [:update, :destroy]
+
   authorize_resource
 
  def update
-   @answer = Answer.find(params[:id])
    @answer.update(answer_params)
    @question = @answer.question
   end
@@ -17,13 +17,17 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    @answer = Answer.find(params[:id])
     @question = @answer.question
-    @answer.destroy if current_user.author_of?(@answer)
+    @answer.destroy
     @answer_id = @answer.id
+    flash[:notice] = 'Answer successfully deleted.'
   end
 
   private
+
+  def load_answer
+    @answer = Answer.find(params[:id])
+  end
 
   def load_question
     @question = Question.find(params[:question_id])    

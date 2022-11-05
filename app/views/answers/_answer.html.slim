@@ -13,7 +13,7 @@
             - answer.files.each do |file|
               .answer-files.d-flex.flex-wrap
                 = link_to file.filename.to_s, url_for(file)
-                - if current_user&.author_of?(answer)  
+                - if can?(:destroy, file)
                   = button_to "Remove file", file_path(file), 
                                             method: :delete,
                                             remote: true,
@@ -39,12 +39,14 @@
         - if answer.comments.present?
           = render partial: 'comments/comment', collection: answer.comments
       .comment-answer
-        -if current_user.present?
+        -if can?(:create, Comment)
           = render partial: "comments/form", locals: { commentable: answer }     
       
       .btn-group.mb-1.d-flex.flex-row-reverse
-        - if answer.persisted? && current_user&.author_of?(answer)
-          = button_to 'Delete', answer_path(answer), method: :delete, remote: true,  class: "btn btn-shadow btn-wide btn-danger"
-          = button_to 'Edit', '#', method: :get, data: { answer_id: answer.id },  class: "btn btn-shadow btn-wide btn-warning edit-answer-link" 
-        - if current_user&.author_of?(@question)  
+        - if answer.persisted? 
+          - if can?(:destroy, answer)  
+            = button_to 'Delete', answer_path(answer), method: :delete, remote: true,  class: "btn btn-shadow btn-wide btn-danger"
+          - if can?(:update, answer)  
+            = button_to 'Edit', '#', method: :get, data: { answer_id: answer.id },  class: "btn btn-shadow btn-wide btn-warning edit-answer-link" 
+        - if can?(:mark_best, answer)  
           = button_to 'Best', question_path(answer.question, question: { best_answer_id: answer.id }), method: :patch, remote: true, class: "btn btn-shadow btn-wide btn-success"
