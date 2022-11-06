@@ -54,11 +54,6 @@ RSpec.describe AnswersController, type: :controller do
         expect { delete :destroy, params: { question_id: question.id, id: answer }, format: :js }.to_not change(question.answers, :count)
       end
     end
-    #!!!!!
-    it 'redirects to question' do
-      delete :destroy, params: { question_id: question.id, id: answer }, format: :js
-      expect(response).to render_template :destroy
-    end
   end
 
   describe 'PATCH#update' do
@@ -89,4 +84,5 @@ RSpec.describe AnswersController, type: :controller do
       
     end   
   end
+
 end

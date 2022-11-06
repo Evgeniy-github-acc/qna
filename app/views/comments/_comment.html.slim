@@ -2,9 +2,10 @@
   .card
     .card-body
       = comment.body
-    - if current_user&.author_of?(comment)
-      .card-footer
-        = render "comments/form_in_line", comment: comment
-        .btn-group.mb-1.d-flex.flex-row-reverse
+    .card-footer
+      = render "comments/form_in_line", comment: comment
+      .btn-group.mb-1.d-flex.flex-row-reverse
+        - if can?(:update, comment)  
           = button_to  'Edit', '#', method: :get, data: { comment_id: comment.id }, class: "btn edit-comment-link"
+        - if can?(:destroy, comment)  
           = button_to  'Delete', comment_path(comment), method: :delete, remote: true, class: "btn"

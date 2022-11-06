@@ -2,6 +2,8 @@ class CommentsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_commentable, only: %i[create]
   before_action :find_comment, only: %i[update destroy]
+  
+  authorize_resource
 
   def create
     @comment = @commentable.comments.create((comments_params).merge(author: current_user))
@@ -9,7 +11,6 @@ class CommentsController < ApplicationController
   end
 
   def destroy
-    
     if @comment.commentable.instance_of?(Question)
       @question = @comment.commentable
     elsif @comment.commentable.instance_of?(Answer)
