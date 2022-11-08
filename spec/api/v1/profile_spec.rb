@@ -5,17 +5,10 @@ describe "Profile API" do
                     "ACCEPT" => "application/json" } } 
 
   describe "GET api/v1/profiles/me" do
-    context "unauthorized" do
-      it 'returns 401 if there is no access token' do
-        get '/api/v1/profiles/me', headers: headers
-        expect(response.status).to eq 401
-      end
-      
-      it 'returns 401 if access_token is invalid' do
-        get '/api/v1/profiles/me', params: { access_token: '1234' }, headers: headers
-        expect(response.status).to eq 401
-      end
-    end
+    let(:path) { '/api/v1/profiles/me' }
+    let(:method) { 'get' } 
+    
+    it_behaves_like 'Api Authorizable'
     
     context "authorized" do
       let(:me) { create(:user) }
