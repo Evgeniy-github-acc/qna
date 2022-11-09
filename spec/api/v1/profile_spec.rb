@@ -8,7 +8,7 @@ describe "Profile API" do
     let(:path) { '/api/v1/profiles/me' }
     let(:method) { 'get' } 
     
-    it_behaves_like 'Api Authorizable'
+    it_behaves_like 'API Authorizable'
     
     context "authorized" do
       let(:me) { create(:user) }

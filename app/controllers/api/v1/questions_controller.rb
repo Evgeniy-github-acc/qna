@@ -10,6 +10,29 @@ class Api::V1::QuestionsController < Api::V1::BaseController
     render json: @question, serializer: QuestionShowSerializer
   end
 
+  def create
+    @question = current_resource_owner.questions.new(question_params)
+
+    if @question.save
+      render json: @question, serializer: QuestionShowSerializer
+    else
+      render json: { errors: @question.errors.full_messages }, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    @question.destroy
+  end
+  
+
+  def update
+    if @question.update(question_params)
+      render json: @question, serializer: QuestionShowSerializer
+    else
+      render json: { errors: @question.errors.full_messages }, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def find_question

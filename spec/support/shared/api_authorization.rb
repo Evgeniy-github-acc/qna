@@ -1,4 +1,4 @@
-shared_examples_for 'Api Authorizable' do
+shared_examples_for 'API Authorizable' do
   context "unauthorized" do
     it 'returns 401 if there is no access token' do
       do_request(method, path, headers: headers)
