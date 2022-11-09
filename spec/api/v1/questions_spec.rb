@@ -68,31 +68,15 @@ describe "Questions API" do
         end
       end
 
-      describe 'links' do
-        it 'returns question links' do
-          %w[id name url created_at updated_at].each do |attr|
-            expect(question_response['links'].first).to eq links.first.as_json
-          end
-        end
-
-        it 'returns list of links' do
-          expect(question_response['links'].size).to eq 3
-        end
+      it_behaves_like 'API Commentable' do
+        let(:commentable) { question } 
       end
 
-      describe 'comments' do
-        it 'returns all comments public fields' do
-          %w[id body created_at updated_at].each do |attr|
-            expect(question_response['comments'].first).to eq comments.first.as_json
-          end
-        end
-
-        it 'returns list of comments' do
-          expect(json['question']['comments'].size).to eq 3
-        end
+      it_behaves_like 'API Linkable' do
+        let(:linkable) { question } 
       end
-
-      it_behaves_like 'API Attachable' do
+      
+       it_behaves_like 'API Attachable' do
         let(:object) { question } 
       end
     end

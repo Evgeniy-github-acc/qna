@@ -11,5 +11,3 @@ class AnswerShowSerializer < AnswerSerializer
     object.files.map { |attachment| url_for(attachment) }
   end
 end
-
-
