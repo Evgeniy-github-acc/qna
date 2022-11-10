@@ -5,18 +5,18 @@ class Api::V1::QuestionsController < Api::V1::BaseController
 
   def index
     @questions = Question.all
-    render json: @questions
+    render json: @questions, each_serializer: QuestionsSerializer
   end
 
   def show
-    render json: @question, serializer: QuestionShowSerializer
+    render json: @question, serializer: QuestionSerializer
   end
 
   def create
     @question = current_resource_owner.questions.new(question_params)
 
     if @question.save
-      render json: @question, serializer: QuestionShowSerializer
+      render json: @question, serializer: QuestionSerializer
     else
       render json: { errors: @question.errors.full_messages }, status: :unprocessable_entity
     end
@@ -29,7 +29,7 @@ class Api::V1::QuestionsController < Api::V1::BaseController
 
   def update
     if @question.update(question_params)
-      render json: @question, serializer: QuestionShowSerializer
+      render json: @question, serializer: QuestionSerializer
     else
       render json: { errors: @question.errors.full_messages }, status: :unprocessable_entity
     end
