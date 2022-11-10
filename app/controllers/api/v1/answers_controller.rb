@@ -5,11 +5,11 @@ class Api::V1::AnswersController < Api::V1::BaseController
   authorize_resource class: Answer
 
   def index
-    render json: @question.answers
+    render json: @question.answers, each_serializer: AnswersSerializer
   end
 
   def show
-    render json: @answer, serializer: AnswerShowSerializer
+    render json: @answer, serializer: AnswerSerializer
   end
 
   def create
@@ -17,7 +17,7 @@ class Api::V1::AnswersController < Api::V1::BaseController
     @answer.author = current_resource_owner
 
     if @answer.save
-      render json: @answer, serializer: AnswerShowSerializer
+      render json: @answer, serializer: AnswerSerializer
     else
       render json: { errors: @answer.errors.full_messages }, status: :unprocessable_entity
     end
@@ -25,7 +25,7 @@ class Api::V1::AnswersController < Api::V1::BaseController
 
   def update
     if @answer.update(answer_params)
-      render json: @answer, serializer: AnswerShowSerializer
+      render json: @answer, serializer: AnswerSerializer
     else
       render json: { errors: @answer.errors.full_messages }, status: :unprocessable_entity
     end

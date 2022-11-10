@@ -1,5 +1,11 @@
-class AnswerSerializer < ActiveModel::Serializer
-  attributes :id, :body, :created_at, :updated_at
-  belongs_to :author
-  belongs_to :question
+class AnswerSerializer < AnswersSerializer
+  include Rails.application.routes.url_helpers
+  
+  has_many :comments
+  has_many :attachments
+  has_many :links
+
+  def attachments
+    object.files.map { |attachment| url_for(attachment) }
+  end
 end
