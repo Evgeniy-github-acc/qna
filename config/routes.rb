@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
-  devise_for :users, controllers: { omniauth_callbacks: 'oauth_callbacks', registrations: 'users/registrations' }
-
+  use_doorkeeper
+  devise_for :users, controllers: { omniauth_callbacks: 'oauth_callbacks', 
+                                    registrations: 'users/registrations' }
   concern :votable do
     member do
       post :vote
@@ -20,4 +21,15 @@ Rails.application.routes.draw do
   resources :users, only: :show
 
   root to: 'questions#index'
+
+  namespace :api do
+    namespace :v1 do
+      resources :profiles, only: :index do
+        get :me, on: :collection
+      end
+      resources :questions, only: %i[index show create update destroy], shallow: true do
+        resources :answers, only: %i[index show create update destroy]
+      end
+    end
+  end
 end

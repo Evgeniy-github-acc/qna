@@ -44,6 +44,7 @@ RSpec.configure do |config|
   config.include Warden::Test::Helpers
   config.use_transactional_fixtures = true
   config.include OmniauthHelpers
+  config.include ApiHelpers, type: :request
 
   config.infer_base_class_for_anonymous_controllers = false
   
