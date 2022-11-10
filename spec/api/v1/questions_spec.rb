@@ -5,7 +5,7 @@ describe "Questions API" do
                     "ACCEPT" => "application/json" } }
   let(:access_token) { create(:access_token) }
   let(:user) { User.find(access_token.resource_owner_id) }
-  let!(:questions) { create_list(:question, 2) }
+  let!(:questions) { create_list(:question, 2, author: user) }
   let(:question) { questions.first }
   let(:question_response) { json["question"] }
 

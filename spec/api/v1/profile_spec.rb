@@ -3,6 +3,10 @@ require 'rails_helper'
 describe "Profile API" do
   let(:headers) { { "CONTENT_TYPE" => "application/json",
                     "ACCEPT" => "application/json" } } 
+  let!(:me) { create(:user) }
+  let(:me_response)  { json["user"] }
+  let(:users_response)  { json["users"] }
+  let(:access_token) { create(:access_token, resource_owner_id: me.id) } 
 
   describe "GET api/v1/profiles/me" do
     let(:path) { '/api/v1/profiles/me' }
@@ -11,9 +15,6 @@ describe "Profile API" do
     it_behaves_like 'API Authorizable'
     
     context "authorized" do
-      let(:me) { create(:user) }
-      let(:me_response)  { json["user"] } 
-      let(:access_token) { create(:access_token, resource_owner_id: me.id) } 
       before do
         get '/api/v1/profiles/me', params: { access_token: access_token.token }, headers: headers
       end
@@ -37,9 +38,9 @@ describe "Profile API" do
   end
 
   describe "GET api/v1/profiles" do
-    let(:users_response)  { json["users"] }
+    #let(:users_response)  { json["users"] }
     let!(:users) { create_list(:user, 4) }
-    let(:access_token) { create(:access_token) }
+    #let(:access_token) { create(:access_token) }
 
     context "authorized" do
       before do
@@ -56,7 +57,7 @@ describe "Profile API" do
 
       it "returns all neccessary fields" do
         %w[id email admin created_at updated_at].each do |attr|
-          expect(users_response.first[attr]).to eq User.first.send(attr).as_json
+          expect(users_response.last[attr]).to eq User.last.send(attr).as_json
         end
       end
 
