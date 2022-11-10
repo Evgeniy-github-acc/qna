@@ -1,6 +1,10 @@
 class Api::V1::BaseController < ApplicationController
   before_action :doorkeeper_authorize!
   skip_before_action :verify_authenticity_token
+
+  rescue_from CanCan::AccessDenied do |exception|
+    render json: exception.message
+  end
  
   private
   
