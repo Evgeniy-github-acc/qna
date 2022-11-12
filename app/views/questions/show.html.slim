@@ -2,7 +2,9 @@
   .row.no-gutters.align-items-center
     .col-10
       h1 = @question.title
-            
+    -if can?(:create, Subscription)
+      .col-2.subscription
+        =render 'subscriptions/subscription', question: @question   
 
 .errors
   =render 'shared/errors', resource: @answer
@@ -10,9 +12,7 @@
 
 .question*{'item-id': @question.id}
   .question-area
-  
     .container-fluid.mt-100
-      .d-flex.flex-wrap.justify-content-between
       .card.mb-3
         .card-body.py-3 
           .row.no-gutters.align-items-center
@@ -52,10 +52,8 @@
               = render partial: "comments/form", locals: { commentable: @question }  
 
 
-          .row.no-gutters.align-items-center
-            .col-9
-            .col-3
-              .btn-group.mb-1
+          .container-fluid.mt-2
+            .btn-group.mb-1.d-flex.flex-row-reverse
                 - if can?(:destroy, @question) 
                   = button_to 'Delete question', question_path(@question), method: :delete, class: "btn btn-shadow btn-wide btn-danger btn-sm"
                 - if can?(:update, @question)  

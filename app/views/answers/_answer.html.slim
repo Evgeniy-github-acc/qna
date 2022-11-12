@@ -42,11 +42,12 @@
         -if can?(:create, Comment)
           = render partial: "comments/form", locals: { commentable: answer }     
       
-      .btn-group.mb-1.d-flex.flex-row-reverse
-        - if answer.persisted? 
-          - if can?(:destroy, answer)  
-            = button_to 'Delete', answer_path(answer), method: :delete, remote: true,  class: "btn btn-shadow btn-wide btn-danger"
-          - if can?(:update, answer)  
-            = button_to 'Edit', '#', method: :get, data: { answer_id: answer.id },  class: "btn btn-shadow btn-wide btn-warning edit-answer-link" 
-        - if can?(:mark_best, answer)  
-          = button_to 'Best', question_path(answer.question, question: { best_answer_id: answer.id }), method: :patch, remote: true, class: "btn btn-shadow btn-wide btn-success"
+      .container-fluid.mt-2
+        .btn-group.mb-1.d-flex.flex-row-reverse
+          - if answer.persisted? 
+            - if can?(:destroy, answer) 
+              = button_to 'Delete', answer_path(answer), method: :delete, remote: true,  class: "btn btn-wide btn-danger"
+            - if can?(:update, answer)  
+              = button_to 'Edit', '#', method: :get, data: { answer_id: answer.id },  class: "btn btn-wide btn-warning edit-answer-link mr-1" 
+          - if can?(:mark_best, answer)  
+            = button_to 'Best', question_path(answer.question, question: { best_answer_id: answer.id }), method: :patch, remote: true, class: "btn btn-wide btn-success"

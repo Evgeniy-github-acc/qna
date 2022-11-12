@@ -1,0 +1,8 @@
+- if current_user&.subscribed?(question)
+  = button_to 'Unsubscribe', subscription_path(@subscription), 
+                              method: :delete, remote: true, data: { type: :json }, 
+                              class: "btn btn-shadow btn-wide btn-primary btn-sm"
+- else
+  = button_to 'Subscribe', question_subscriptions_path(question), 
+                            method: :post, remote: true, data: { type: :json }, 
+                            class: "btn btn-shadow btn-wide btn-primary btn-sm"

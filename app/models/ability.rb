@@ -25,9 +25,9 @@ class Ability
 
   def user_abilities
     can :read, :all
-    can :create, [Question, Answer, Comment]
+    can :create, [Question, Answer, Comment, Subscription]
     can :update, [Question, Answer, Comment], author_id: user.id
-    can :destroy, [Question, Answer, Comment], author_id: user.id
+    can :destroy, [Question, Answer, Comment, Subscription], author_id: user.id
     can :destroy, Link,  linkable: { author_id: user.id }
     can :destroy, Award, question: { author_id: user.id }
     can :mark_best, Answer, question: { author_id: @user.id }
