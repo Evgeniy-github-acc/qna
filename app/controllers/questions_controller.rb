@@ -3,6 +3,7 @@ class QuestionsController < ApplicationController
 
   before_action :authenticate_user!, except: %i[index show]
   before_action :load_question, only: %i[show destroy update]
+  before_action :set_subscription, only: %i[show update]
 
   authorize_resource
 
@@ -80,5 +81,9 @@ class QuestionsController < ApplicationController
         locals: { question: @question }
       )
     )
+  end
+
+  def set_subscription
+    @subscription ||= current_user&.subscriptions&.find_by(question: @question)
   end
 end

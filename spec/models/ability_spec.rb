@@ -63,5 +63,8 @@ RSpec.describe Ability, type: :model do
     it { should be_able_to :mark_best, create(:answer, question: question, author: other) }
     it { should_not be_able_to :mark_best, create(:answer, question: other_question, author: user) }
     it { should_not be_able_to :mark_best, create(:answer, question: other_question, author: other) }
+
+    it { should be_able_to :create, Subscription }
+    it { should be_able_to :destroy, Subscription }
   end
 end

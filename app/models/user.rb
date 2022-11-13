@@ -6,6 +6,7 @@ class User < ApplicationRecord
   has_many :answers, foreign_key: 'author_id', dependent: :destroy
   has_many :awards
   has_many :authorizations, dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
   
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
@@ -18,5 +19,9 @@ class User < ApplicationRecord
   
   def self.find_for_oauth(auth)
     FindForOauth.new(auth).call
+  end
+
+  def subscribed?(question)
+    subscriptions.where(question_id: question.id).any?
   end
 end

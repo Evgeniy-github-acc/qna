@@ -7,6 +7,7 @@ class Question < ApplicationRecord
   belongs_to :best_answer, class_name: 'Answer', optional: true
   has_many :answers, dependent: :destroy
   has_one :award, dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
   
   has_many_attached :files
 
