@@ -6,6 +6,8 @@ class Comment < ApplicationRecord
 
   after_create_commit :publish_comment
 
+  ThinkingSphinx::Callbacks.append(self, :behaviours => [:real_time])
+
   private
   
   def publish_comment
@@ -23,5 +25,4 @@ class Comment < ApplicationRecord
       Answer.find(commentable_id).question_id
     end
   end
-
 end

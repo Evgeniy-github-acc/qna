@@ -13,6 +13,8 @@ class Answer < ApplicationRecord
 
   after_create_commit :publish_answer
 
+  ThinkingSphinx::Callbacks.append(self, :behaviours => [:real_time])
+
   def mark_as_best
 		question.update(best_answer_id: self.id)
 	end

@@ -7,6 +7,8 @@ class User < ApplicationRecord
   has_many :awards
   has_many :authorizations, dependent: :destroy
   has_many :subscriptions, dependent: :destroy
+
+  ThinkingSphinx::Callbacks.append(self, :behaviours => [:real_time])
   
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
