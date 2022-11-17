@@ -1,0 +1,32 @@
+h1 = 'Search Results'
+table.table.table-borded
+  - @results.each do |result|
+    - if result.class == Question
+      tr
+        td = 'Question:'
+        td = result.title
+        td = result.body
+        td = link_to 'Jump to question', question_path(result)
+    - if result.class == Answer
+      tr
+        td = 'Answer'
+        td 
+          = 'in Question:  '
+          = result.question.title
+        td = result.body
+        td = link_to 'Jump to question', question_path(result.question)
+    - if result.class == Comment
+      tr
+        td = 'Comment: '
+        td 
+          = "in #{result.commentable.class}:  #{result.commentable.body}"
+        td = result.body
+        td
+          - if result.commentable.class == Question
+            = link_to 'Jump to question', question_path(result.commentable)
+          - else
+            = link_to 'Jump to question', question_path(result.commentable.question)
+    - if result.class == User
+      tr
+        td  = 'User: '
+        td  = result.email 
