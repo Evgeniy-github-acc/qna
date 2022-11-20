@@ -26,7 +26,7 @@ gem 'redis', '~> 4.0'
 # gem 'image_processing', '~> 1.2'
 
 # Reduces boot times through caching; required in config/boot.rb
-gem 'bootsnap', '>= 1.4.4', require: false
+gem 'bootsnap', require: false
 gem 'slim-rails'
 gem 'devise'
 gem 'jquery-rails'
@@ -76,8 +76,8 @@ group :development do
   gem 'capistrano-bundler', require: false
   gem 'capistrano-rails', require: false
   gem 'capistrano-rvm', require: false
-  #gem 'rvm1-capistrano3', require: false
   gem 'capistrano-passenger', require: false
+  gem 'capistrano-sidekiq', require: false
   gem "bcrypt_pbkdf", require: false
   gem "ed25519", require: false
 end
