@@ -64,12 +64,14 @@ Rails.application.configure do
 
   config.action_mailer.perform_caching = false
   config.action_mailer.default_url_options = { host: '80.78.254.228' }
+  config.action_mailer.perform_deliveries = true
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
     address: 'smtp.gmail.com',
     port: 587,
-    user_name: [Rails.env.to_sym][:gmail][:user],
-    password: [Rails.env.to_sym][:gmail][:password],
+    domain: '80.78.254.228',
+    user_name: Rails.application.credentials[Rails.env.to_sym][:gmail][:user],
+    password: Rails.application.credentials[Rails.env.to_sym][:gmail][:password],
     authentication: 'plain',
     enable_starttls_auto: true }
 
