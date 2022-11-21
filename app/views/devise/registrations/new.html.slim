@@ -1,0 +1,35 @@
+section.vh-100
+  .container.py-5.h-100
+    .row.d-flex.justify-content-center.align-items-center.h-100
+      .col-12.col-md-8.col-lg-6.col-xl-5
+        .card.bg-dark.text-white style=("border-radius: 1rem;")
+          - omni_authed = session["oauth.uid"].present? && session["oauth.provider"].present?
+          - if omni_authed
+            h4
+              | Please fill in your email to finish registration.
+          .card-body.p-5.text-center
+            .mb-md-5.mt-md-4.pb-5
+              h2.fw-bold.mb-2.text-uppercase Sign Up
+              = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+                = render "devise/shared/error_messages", resource: resource
+                .form-outline.form-white.mb-4
+                  = f.label :email
+                  br
+                  = f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control-lg"
+                - unless omni_authed
+                  .form-outline.form-white.mb-4
+                    = f.label :password
+                    - if @minimum_password_length
+                      em
+                        | (
+                        = @minimum_password_length
+                        |  characters minimum)
+                    br
+                    = f.password_field :password, autocomplete: "new-password", class: "form-control-lg"
+                  .form-outline.form-white.mb-4
+                    = f.label :password_confirmation
+                    br
+                    = f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control-lg"
+                .actions
+                  = f.submit "Sign up", class: "btn btn-outline-light btn-lg px-5"
+                = render "devise/shared/links"

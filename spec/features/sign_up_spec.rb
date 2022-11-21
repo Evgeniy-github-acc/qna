@@ -22,7 +22,7 @@ feature 'User can sign up', %q{
       background do
         mock_auth_hash(email: nil)
         visit new_user_registration_path
-        click_link('Sign in with GitHub')
+        find(:css, 'a.text-white.github').click
       end
 
       it "doesn't ask for a password" do
@@ -49,7 +49,7 @@ feature 'User can sign up', %q{
       background do 
         mock_auth_hash
         visit new_user_registration_path
-        click_link('Sign in with GitHub')
+        find(:css, 'a.text-white.github').click
       end
 
       it "authenticates user" do

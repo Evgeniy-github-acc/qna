@@ -29,7 +29,7 @@ feature 'User can sign in', %q{
     background do 
       mock_auth_hash(provider: 'facebook')
       visit new_user_registration_path
-      click_link('Sign in with Facebook')
+      find(:css, 'a.text-white.facebook').click
     end
 
     it "authenticates user" do
