@@ -11,6 +11,7 @@ set :repo_url, "git@github.com:Evgeniy-github-acc/qna.git"
 set :deploy_to, "/home/deployer/qna"
 set :deploy_user, "deployer"
 set :rvm_custom_path, '/usr/share/rvm'
+set :pty, false
 
 # Default value for :format is :airbrussh.
 # set :format, :airbrussh
