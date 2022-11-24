@@ -1,5 +1,5 @@
-= form_with url: search_path, method: :get, class: 'd-flex' do |form| 
-
-  = form.select :model_name, %w[Anywhere Comment Answer Question User] 
-  = form.text_field :query 
-  = form.submit "Search", class: 'btn btn-outline-success'
+.mb-2
+  = form_with url: search_path, method: :get, class: 'd-flex' do |form| 
+    = form.select :model_name, %w[Anywhere Comment Answer Question User] 
+    = form.text_field :query 
+    = form.submit "Search", class: 'btn btn-outline-primary'

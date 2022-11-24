@@ -21,3 +21,6 @@
 every 1.day, at: '8:00 am' do
   runner "DailyDigestJob.perform_now"
 end
+every 1.day, at: '9:00 am' do
+  runner "SubscriptionJob.perform_now"
+end
