@@ -1,0 +1,2 @@
+production:
+  :pidfile: tmp/pids/sidekiq.pid
