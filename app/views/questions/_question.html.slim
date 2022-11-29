@@ -1,3 +1,4 @@
+  - cache question do  
     .collection-item id=dom_id(question)
       .card-body.py-3
         .row.no-gutters.align-items-center
@@ -16,4 +17,4 @@
                     .line-height-1.text-truncate 
                       = " #{ time_ago_in_words(question.answers.last.created_at) } ago" 
                     a.text-muted.small.text-truncate data-abc="true" href="javascript:void(0)"
-                      = "  by #{question.answers.last.author.email}"  
+                      = "  by #{question.answers.last.author.email}" 
