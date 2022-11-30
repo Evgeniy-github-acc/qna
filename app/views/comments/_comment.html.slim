@@ -1,7 +1,9 @@
 .container-fluid.mt-50.comment*{'item-id': comment.id}
   .card
-    .card-body
-      = comment.body
+    - cache comment do 
+      .card-body
+        = comment.body
+      
     .card-footer
       = render "comments/form_in_line", comment: comment
       .btn-group.mb-1.d-flex.flex-row-reverse

@@ -18,4 +18,6 @@
             .col-8 Last update
     
   .questions
-    = render @questions
+    - cache collection_cache_key_for :question do
+      - @questions.each do |question|
+        = render question

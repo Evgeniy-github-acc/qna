@@ -1,53 +1,54 @@
-.container-fluid.mt-50.answer*{'item-id': answer.id}
-  .d-flex.flex-wrap.justify-content-between
-  .card.mb-3 [id = "answer-#{answer.id}"]
-    .card-header
-      .text-muted.small.mt-1
-        = " #{ time_ago_in_words(answer.created_at) } ago" 
-        = "  by #{answer.author.email}"
-    .card-body.py-3 
-      .row.no-gutters.align-items-center
-        .col-10
-          = answer.body
-          -if answer.files.attached?
-            - answer.files.each do |file|
-              .answer-files.d-flex.flex-wrap
-                = link_to file.filename.to_s, url_for(file)
-                - if can?(:destroy, file)
-                  = button_to "Remove file", file_path(file), 
-                                            method: :delete,
-                                            remote: true,
-                                            class: "btn btn-shadow btn-wide btn-danger btn-xs"
-                                          
-          .links
-            = render  partial: 'links/link', locals: { resource: answer } 
-        .col-2 
-          = render partial: 'shared/rating', locals: { resource: answer }
-              
-        = bootstrap_form_with model: answer, local: false, class: 'hidden', html: { id: "edit-answer-#{answer.id}"} do |f|
-          = f.text_area :body
-          = f.file_field :files, multiple: true, direct_upload: true
-          #links
-            = f.fields_for :links do |l|
-              = render 'application/link_fields', f: l
-            .link-link
-              = link_to_add_association 'add link', f, :links
-            = f.submit 'Save'
+- cache answer do
+  .container-fluid.mt-50.answer*{'item-id': answer.id}
+    .d-flex.flex-wrap.justify-content-between
+    .card.mb-3 [id = "answer-#{answer.id}"]
+      .card-header
+        .text-muted.small.mt-1
+          = " #{ time_ago_in_words(answer.created_at) } ago" 
+          = "  by #{answer.author.email}"
+      .card-body.py-3 
+        .row.no-gutters.align-items-center
+          .col-10
+            = answer.body
+            -if answer.files.attached?
+              - answer.files.each do |file|
+                .answer-files.d-flex.flex-wrap
+                  = link_to file.filename.to_s, url_for(file)
+                  - if can?(:destroy, file)
+                    = button_to "Remove file", file_path(file), 
+                                              method: :delete,
+                                              remote: true,
+                                              class: "btn btn-shadow btn-wide btn-danger btn-xs"
+                                            
+            .links
+              = render  partial: 'links/link', locals: { resource: answer } 
+          .col-2 
+            = render partial: 'shared/rating', locals: { resource: answer }
+                
+          = bootstrap_form_with model: answer, local: false, class: 'hidden', html: { id: "edit-answer-#{answer.id}"} do |f|
+            = f.text_area :body
+            = f.file_field :files, multiple: true, direct_upload: true
+            #links
+              = f.fields_for :links do |l|
+                = render 'application/link_fields', f: l
+              .link-link
+                = link_to_add_association 'add link', f, :links
+              = f.submit 'Save'
 
-    .card-footer
-      .answer-comments
-        - if answer.comments.present?
-          = render partial: 'comments/comment', collection: answer.comments
-      .comment-answer
-        -if can?(:create, Comment)
-          = render partial: "comments/form", locals: { commentable: answer }     
-      
-      .container-fluid.mt-2
-        .btn-group.mb-1.d-flex.flex-row-reverse
-          - if answer.persisted? 
-            - if can?(:destroy, answer) 
-              = button_to 'Delete', answer_path(answer), method: :delete, remote: true,  class: "btn btn-wide btn-danger"
-            - if can?(:update, answer)  
-              = button_to 'Edit', '#', method: :get, data: { answer_id: answer.id },  class: "btn btn-wide btn-warning edit-answer-link mr-1" 
-          - if can?(:mark_best, answer)  
-            = button_to 'Best', question_path(answer.question, question: { best_answer_id: answer.id }), method: :patch, remote: true, class: "btn btn-wide btn-success"
+      .card-footer
+        .answer-comments
+          - if answer.comments.present?
+            = render partial: 'comments/comment', collection: answer.comments
+        .comment-answer
+          -if can?(:create, Comment)
+            = render partial: "comments/form", locals: { commentable: answer }     
+        
+        .container-fluid.mt-2
+          .btn-group.mb-1.d-flex.flex-row-reverse
+            - if answer.persisted? 
+              - if can?(:destroy, answer) 
+                = button_to 'Delete', answer_path(answer), method: :delete, remote: true,  class: "btn btn-wide btn-danger"
+              - if can?(:update, answer)  
+                = button_to 'Edit', '#', method: :get, data: { answer_id: answer.id },  class: "btn btn-wide btn-warning edit-answer-link mr-1" 
+            - if can?(:mark_best, answer)  
+              = button_to 'Best', question_path(answer.question, question: { best_answer_id: answer.id }), method: :patch, remote: true, class: "btn btn-wide btn-success"
